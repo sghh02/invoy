@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InFree - 請求書作成</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            overflow-x: hidden;
+            display: flex;
+        }
+
+        /* アニメーション背景 */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.6;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 800px;
+            height: 800px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -400px;
+            left: -400px;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            bottom: -300px;
+            right: -300px;
+            animation-delay: 10s;
+        }
+
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(100px, -100px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-100px, 100px) scale(0.9);
+            }
+        }
+
+        /* サイドバー */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        /* ナビゲーション */
+        .nav-menu {
+            flex: 1;
+            padding: 20px 12px;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 32px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            background: transparent;
+            border: none;
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateX(4px);
+        }
+
+        .nav-item:hover::before {
+            width: 100%;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            color: #ffffff;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 0 3px 3px 0;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .nav-text {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            padding: 2px 8px;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        /* サイドバーフッター */
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* メインコンテンツ */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ヘッダー */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .title-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-button {
+            height: 48px;
+            padding: 0 24px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .header-button:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .header-button.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .header-button.primary:hover {
+            box-shadow: 0 6px 30px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .button-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* コンテンツグリッド */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            flex: 1;
+        }
+
+        /* グラスカード */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow:
+                0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            padding: 32px;
+            animation: slideUp 0.6s ease-out;
+            height: fit-content;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* フォーム */
+        .form-section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-icon {
+            width: 18px;
+            height: 18px;
+            color: #667eea;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 44px;
+            padding: 0 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* 品目テーブル */
+        .items-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .items-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+        }
+
+        .items-header span {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 12px;
+            margin-bottom: 12px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .item-input {
+            height: 40px;
+            padding: 0 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .item-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .item-input[readonly] {
+            background: rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.6);
+            cursor: not-allowed;
+        }
+
+        .remove-item-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(245, 87, 108, 0.1);
+            border: 1px solid rgba(245, 87, 108, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .remove-item-btn:hover {
+            background: rgba(245, 87, 108, 0.2);
+            border-color: rgba(245, 87, 108, 0.3);
+            transform: scale(1.05);
+        }
+
+        .remove-icon {
+            width: 18px;
+            height: 18px;
+            color: #f5576c;
+        }
+
+        .add-item-btn {
+            width: 100%;
+            height: 40px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px dashed rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #667eea;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .add-item-btn:hover {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .add-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* 合計セクション */
+        .totals-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .total-row:last-child {
+            margin-bottom: 0;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .total-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .total-row:last-child .total-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .total-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .total-row:last-child .total-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        /* プレビューセクション */
+        .preview-container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            height: fit-content;
+        }
+
+        .preview-header {
+            background: #f8f9fa;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .preview-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .preview-btn:hover {
+            background: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        .invoice-preview {
+            padding: 40px;
+            min-height: 800px;
+            color: #212529;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 40px;
+        }
+
+        .invoice-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+
+        .invoice-number {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .company-info {
+            text-align: right;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .company-details {
+            font-size: 14px;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        .invoice-date {
+            font-size: 14px;
+            color: #495057;
+            margin-bottom: 30px;
+        }
+
+        .client-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .client-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .client-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .client-address {
+            font-size: 14px;
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .invoice-table {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .invoice-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6c757d;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .invoice-table th:last-child {
+            text-align: right;
+        }
+
+        .invoice-table td {
+            padding: 16px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .invoice-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .invoice-totals {
+            margin-left: auto;
+            width: 300px;
+        }
+
+        .invoice-total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .invoice-total-row.grand-total {
+            margin-top: 8px;
+            padding-top: 16px;
+            border-top: 2px solid #dee2e6;
+            font-size: 18px;
+            font-weight: 700;
+            color: #212529;
+        }
+
+        .invoice-notes {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .invoice-notes-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .invoice-notes-text {
+            font-size: 14px;
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 1400px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .items-header,
+            .item-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .items-header span {
+                display: none;
+            }
+
+            .item-input {
+                width: 100%;
+            }
+
+            .invoice-preview {
+                padding: 20px;
+            }
+
+            .invoice-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .company-info {
+                text-align: left;
+            }
+        }
+
+        /* アニメーション */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .glass-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .glass-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        /* モバイルメニューボタン */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 101;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        .mobile-menu-icon {
+            width: 24px;
+            height: 24px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- アニメーション背景 -->
+    <div class="bg-container">
+        <div class="gradient-orb orb1"></div>
+        <div class="gradient-orb orb2"></div>
+    </div>
+
+    <!-- モバイルメニューボタン -->
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        <svg class="mobile-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <!-- サイドバー -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="dashboard.html" class="logo-container">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                        <path d="M7.5 4.21l4.5 2.6 4.5-2.6"></path>
+                        <path d="M7.5 19.79V14.6L3 12"></path>
+                        <path d="M21 12l-4.5 2.6v5.19"></path>
+                        <path d="M3.27 6.96L12 12.01l8.73-5.05"></path>
+                        <path d="M12 22.08V12"></path>
+                    </svg>
+                </div>
+                <span class="logo-text">InFree</span>
+            </a>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <div class="nav-section-title">メイン</div>
+                <a href="dashboard.html" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span class="nav-text">ダッシュボード</span>
+                </a>
+                <a href="#" class="nav-item active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span class="nav-text">請求書作成</span>
+                    <span class="nav-badge">新規</span>
+                </a>
+                <a href="invoices.html" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                        <polyline points="13 2 13 9 20 9"></polyline>
+                    </svg>
+                    <span class="nav-text">請求書一覧</span>
+                    <span class="nav-badge">24</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">管理</div>
+                <a href="clients.html" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span class="nav-text">顧客管理</span>
+                </a>
+                <a href="products.html" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    <span class="nav-text">商品・サービス</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span class="nav-text">レポート</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">設定</div>
+                <a href="settings.html" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m11-11h-6m-6 0H1"></path>
+                        <path d="m20.84 4.61-2.45 2.45m-11.33 0L4.61 4.61m0 14.78 2.45-2.45m11.33 0 2.45 2.45"></path>
+                    </svg>
+                    <span class="nav-text">設定</span>
+                </a>
+                <a href="help.html" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span class="nav-text">ヘルプ</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">山</div>
+                <div class="user-info">
+                    <div class="user-name">山田 太郎</div>
+                    <div class="user-email">yamada@infree.jp</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="page-title">
+                <h1 class="title-text">請求書作成</h1>
+            </div>
+            <div class="header-actions">
+                <button class="header-button">
+                    <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    <span>下書き保存</span>
+                </button>
+                <button class="header-button primary" onclick="generatePDF()">
+                    <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>PDF出力</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- コンテンツグリッド -->
+        <div class="content-grid">
+            <!-- 入力フォーム -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                    </div>
+                    <h2 class="card-title">請求書情報入力</h2>
+                </div>
+
+                <form id="invoice-form">
+                    <!-- 基本情報 -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            基本情報
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">請求書番号</label>
+                                <input type="text" class="form-input" id="invoice-number" value="INV-2025-001"
+                                    placeholder="INV-2025-001">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">発行日</label>
+                                <input type="date" class="form-input" id="invoice-date" value="2025-05-25">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">支払期限</label>
+                                <input type="date" class="form-input" id="due-date" value="2025-06-30">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">消費税率</label>
+                                <input type="number" class="form-input" id="tax-rate" value="10" min="0" max="100"
+                                    placeholder="10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 請求先情報 -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            請求先情報
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label class="form-label">会社名</label>
+                                <input type="text" class="form-input" id="client-company" placeholder="株式会社〇〇">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">部署名</label>
+                                <input type="text" class="form-input" id="client-department" placeholder="営業部">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">担当者名</label>
+                                <input type="text" class="form-input" id="client-name" placeholder="山田太郎">
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">住所</label>
+                                <input type="text" class="form-input" id="client-address" placeholder="東京都渋谷区〇〇1-2-3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 請求元情報 -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M3 21h18"></path>
+                                <path d="M5 21V7l8-4v18"></path>
+                                <path d="M19 21V11l-6-3"></path>
+                                <rect x="9" y="9" width="4" height="4"></rect>
+                            </svg>
+                            請求元情報
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label class="form-label">会社名</label>
+                                <input type="text" class="form-input" id="company-name" value="InFree株式会社"
+                                    placeholder="あなたの会社名">
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">住所</label>
+                                <input type="text" class="form-input" id="company-address" value="神奈川県川崎市〇〇区〇〇1-2-3"
+                                    placeholder="あなたの会社の住所">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">電話番号</label>
+                                <input type="tel" class="form-input" id="company-phone" value="044-123-4567"
+                                    placeholder="03-1234-5678">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">メールアドレス</label>
+                                <input type="email" class="form-input" id="company-email" value="info@infree.jp"
+                                    placeholder="info@example.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 品目 -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            </svg>
+                            品目
+                        </h3>
+                        <div class="items-container">
+                            <div class="items-header">
+                                <span>品目名</span>
+                                <span>数量</span>
+                                <span>単価</span>
+                                <span>金額</span>
+                                <span></span>
+                            </div>
+                            <div id="items-list">
+                                <div class="item-row">
+                                    <input type="text" class="item-input" placeholder="品目名" value="ウェブサイト制作">
+                                    <input type="number" class="item-input item-quantity" placeholder="1" value="1"
+                                        min="1">
+                                    <input type="number" class="item-input item-price" placeholder="0" value="300000"
+                                        min="0">
+                                    <input type="text" class="item-input item-subtotal" readonly value="¥300,000">
+                                    <button type="button" class="remove-item-btn" onclick="removeItem(this)">
+                                        <svg class="remove-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2">
+                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="add-item-btn" onclick="addItem()">
+                                <svg class="add-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                品目を追加
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 備考 -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3">
+                                </path>
+                            </svg>
+                            備考
+                        </h3>
+                        <div class="form-group">
+                            <textarea class="form-textarea" id="notes" placeholder="お振込手数料はご負担ください。" rows="3">お振込手数料はご負担ください。
+ご不明な点がございましたら、お気軽にお問い合わせください。</textarea>
+                        </div>
+                    </div>
+
+                    <!-- 合計 -->
+                    <div class="totals-section">
+                        <div class="total-row">
+                            <span class="total-label">小計</span>
+                            <span class="total-value" id="subtotal">¥300,000</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">消費税（10%）</span>
+                            <span class="total-value" id="tax">¥30,000</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">合計金額</span>
+                            <span class="total-value" id="total">¥330,000</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- プレビュー -->
+            <div class="glass-card">
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <span class="preview-title">請求書プレビュー</span>
+                        <div class="preview-actions">
+                            <button class="preview-btn" onclick="zoomIn()">拡大</button>
+                            <button class="preview-btn" onclick="zoomOut()">縮小</button>
+                            <button class="preview-btn" onclick="resetZoom()">リセット</button>
+                        </div>
+                    </div>
+                    <div class="invoice-preview" id="invoice-preview">
+                        <div class="invoice-header">
+                            <div>
+                                <h1 class="invoice-title">請求書</h1>
+                                <p class="invoice-number">請求書番号: <span id="preview-invoice-number">INV-2025-001</span>
+                                </p>
+                            </div>
+                            <div class="company-info">
+                                <h2 class="company-name" id="preview-company-name">InFree株式会社</h2>
+                                <div class="company-details">
+                                    <div id="preview-company-address">神奈川県川崎市〇〇区〇〇1-2-3</div>
+                                    <div id="preview-company-phone">TEL: 044-123-4567</div>
+                                    <div id="preview-company-email">info@infree.jp</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="invoice-date">
+                            発行日: <span id="preview-invoice-date">2025年5月25日</span>
+                        </div>
+
+                        <div class="client-section">
+                            <div class="client-label">請求先</div>
+                            <div class="client-name">
+                                <span id="preview-client-company">株式会社〇〇</span>
+                                <span id="preview-client-department"></span>
+                                <span id="preview-client-name"></span> 様
+                            </div>
+                            <div class="client-address" id="preview-client-address"></div>
+                        </div>
+
+                        <table class="invoice-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50%">品目</th>
+                                    <th style="width: 15%">数量</th>
+                                    <th style="width: 15%">単価</th>
+                                    <th style="width: 20%">金額</th>
+                                </tr>
+                            </thead>
+                            <tbody id="preview-items">
+                                <tr>
+                                    <td>ウェブサイト制作</td>
+                                    <td>1</td>
+                                    <td>¥300,000</td>
+                                    <td>¥300,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="invoice-totals">
+                            <div class="invoice-total-row">
+                                <span>小計</span>
+                                <span id="preview-subtotal">¥300,000</span>
+                            </div>
+                            <div class="invoice-total-row">
+                                <span>消費税（10%）</span>
+                                <span id="preview-tax">¥30,000</span>
+                            </div>
+                            <div class="invoice-total-row grand-total">
+                                <span>合計金額</span>
+                                <span id="preview-total">¥330,000</span>
+                            </div>
+                        </div>
+
+                        <div class="invoice-notes">
+                            <div class="invoice-notes-title">備考</div>
+                            <div class="invoice-notes-text" id="preview-notes">お振込手数料はご負担ください。
+                                ご不明な点がございましたら、お気軽にお問い合わせください。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // サイドバートグル
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        // 数値フォーマット
+        function formatCurrency(num) {
+            return '¥' + num.toLocaleString('ja-JP');
+        }
+
+        // 日付フォーマット
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        // 品目追加
+        function addItem() {
+            const itemsList = document.getElementById('items-list');
+            const newRow = document.createElement('div');
+            newRow.className = 'item-row';
+            newRow.innerHTML = `
+        <input type="text" class="item-input" placeholder="品目名">
+        <input type="number" class="item-input item-quantity" placeholder="1" value="1" min="1">
+        <input type="number" class="item-input item-price" placeholder="0" value="0" min="0">
+        <input type="text" class="item-input item-subtotal" readonly value="¥0">
+        <button type="button" class="remove-item-btn" onclick="removeItem(this)">
+          <svg class="remove-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      `;
+            itemsList.appendChild(newRow);
+
+            // イベントリスナー追加
+            const quantityInput = newRow.querySelector('.item-quantity');
+            const priceInput = newRow.querySelector('.item-price');
+            quantityInput.addEventListener('input', () => updateItemSubtotal(newRow));
+            priceInput.addEventListener('input', () => updateItemSubtotal(newRow));
+        }
+
+        // 品目削除
+        function removeItem(button) {
+            button.parentElement.remove();
+            calculateTotals();
+            updatePreview();
+        }
+
+        // 品目小計更新
+        function updateItemSubtotal(row) {
+            const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
+            const price = parseFloat(row.querySelector('.item-price').value) || 0;
+            const subtotal = quantity * price;
+            row.querySelector('.item-subtotal').value = formatCurrency(subtotal);
+            calculateTotals();
+            updatePreview();
+        }
+
+        // 合計計算
+        function calculateTotals() {
+            let subtotal = 0;
+            const itemRows = document.querySelectorAll('.item-row');
+
+            itemRows.forEach(row => {
+                const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                subtotal += quantity * price;
+            });
+
+            const taxRate = parseFloat(document.getElementById('tax-rate').value) || 0;
+            const tax = Math.floor(subtotal * taxRate / 100);
+            const total = subtotal + tax;
+
+            document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('tax').textContent = formatCurrency(tax);
+            document.getElementById('total').textContent = formatCurrency(total);
+        }
+
+        // プレビュー更新
+        function updatePreview() {
+            // 基本情報
+            document.getElementById('preview-invoice-number').textContent = document.getElementById('invoice-number').value || 'INV-2025-001';
+            document.getElementById('preview-invoice-date').textContent = formatDate(document.getElementById('invoice-date').value);
+
+            // 請求先情報
+            document.getElementById('preview-client-company').textContent = document.getElementById('client-company').value || '';
+            document.getElementById('preview-client-department').textContent = document.getElementById('client-department').value || '';
+            document.getElementById('preview-client-name').textContent = document.getElementById('client-name').value || '';
+            document.getElementById('preview-client-address').textContent = document.getElementById('client-address').value || '';
+
+            // 請求元情報
+            document.getElementById('preview-company-name').textContent = document.getElementById('company-name').value || '';
+            document.getElementById('preview-company-address').textContent = document.getElementById('company-address').value || '';
+            document.getElementById('preview-company-phone').textContent = 'TEL: ' + (document.getElementById('company-phone').value || '');
+            document.getElementById('preview-company-email').textContent = document.getElementById('company-email').value || '';
+
+            // 品目
+            const previewItems = document.getElementById('preview-items');
+            previewItems.innerHTML = '';
+
+            document.querySelectorAll('.item-row').forEach(row => {
+                const name = row.querySelector('input[type="text"]').value;
+                const quantity = row.querySelector('.item-quantity').value;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const subtotal = parseFloat(quantity) * price;
+
+                if (name) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+            <td>${name}</td>
+            <td>${quantity}</td>
+            <td>${formatCurrency(price)}</td>
+            <td>${formatCurrency(subtotal)}</td>
+          `;
+                    previewItems.appendChild(tr);
+                }
+            });
+
+            // 合計
+            document.getElementById('preview-subtotal').textContent = document.getElementById('subtotal').textContent;
+            document.getElementById('preview-tax').textContent = document.getElementById('tax').textContent;
+            document.getElementById('preview-total').textContent = document.getElementById('total').textContent;
+
+            // 備考
+            document.getElementById('preview-notes').textContent = document.getElementById('notes').value || '';
+        }
+
+        // ズーム機能
+        let zoomLevel = 1;
+        function zoomIn() {
+            zoomLevel = Math.min(zoomLevel + 0.1, 2);
+            document.getElementById('invoice-preview').style.transform = `scale(${zoomLevel})`;
+            document.getElementById('invoice-preview').style.transformOrigin = 'top left';
+        }
+
+        function zoomOut() {
+            zoomLevel = Math.max(zoomLevel - 0.1, 0.5);
+            document.getElementById('invoice-preview').style.transform = `scale(${zoomLevel})`;
+            document.getElementById('invoice-preview').style.transformOrigin = 'top left';
+        }
+
+        function resetZoom() {
+            zoomLevel = 1;
+            document.getElementById('invoice-preview').style.transform = 'scale(1)';
+        }
+
+        // PDF生成（デモ）
+        function generatePDF() {
+            alert('PDF生成機能は実装準備中です。実際のアプリケーションでは、ここでPDFが生成されます。');
+        }
+
+        // イベントリスナー設定
+        document.addEventListener('DOMContentLoaded', function () {
+            // フォーム入力時のプレビュー更新
+            const inputs = document.querySelectorAll('.form-input, .form-textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+
+            // 品目の計算イベント
+            document.querySelectorAll('.item-quantity, .item-price').forEach(input => {
+                input.addEventListener('input', function () {
+                    updateItemSubtotal(this.parentElement);
+                });
+            });
+
+            // 消費税率変更時
+            document.getElementById('tax-rate').addEventListener('input', calculateTotals);
+
+            // 初期表示
+            calculateTotals();
+            updatePreview();
+        });
+    </script>
+</body>
+
+</html>

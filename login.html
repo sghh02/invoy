@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InFree - スマートな請求書管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* アニメーション背景 */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.7;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -300px;
+            left: -300px;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            bottom: -250px;
+            right: -250px;
+            animation-delay: 5s;
+        }
+
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(100px, -100px) scale(1.1);
+            }
+
+            50% {
+                transform: translate(-100px, 100px) scale(0.9);
+            }
+
+            75% {
+                transform: translate(50px, 50px) scale(1.05);
+            }
+        }
+
+        /* メインコンテナ */
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            z-index: 1;
+        }
+
+        /* グラスモーフィズムカード */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow:
+                0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            padding: 48px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* ロゴセクション */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            margin-bottom: 24px;
+            position: relative;
+            box-shadow:
+                0 10px 40px rgba(102, 126, 234, 0.4),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-wrapper::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(10px);
+            animation: glow 3s infinite;
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .app-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .app-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+        }
+
+        /* フォーム */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 52px;
+            padding: 0 48px 0 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .form-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow:
+                0 0 0 3px rgba(102, 126, 234, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper:focus-within .input-icon {
+            color: rgba(102, 126, 234, 0.8);
+        }
+
+        .password-toggle {
+            background: none;
+            border: none;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            padding: 4px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .password-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* オプション */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-input {
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            font-size: 14px;
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* ボタン */
+        .login-button {
+            width: 100%;
+            height: 52px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-button:hover::before {
+            left: 100%;
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        /* 分割線 */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 32px 0;
+            gap: 16px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent);
+        }
+
+        .divider-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ソーシャルボタン */
+        .social-login {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-button {
+            flex: 1;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-button:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* サインアップリンク */
+        .signup-section {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .signup-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .signup-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 480px) {
+            .glass-card {
+                padding: 32px 24px;
+            }
+
+            .app-title {
+                font-size: 28px;
+            }
+
+            .logo-wrapper {
+                width: 70px;
+                height: 70px;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        /* アニメーション */
+        .glass-card {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .form-group:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .form-options {
+            animation: fadeIn 0.6s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .login-button {
+            animation: fadeIn 0.6s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        .divider {
+            animation: fadeIn 0.6s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        .social-login {
+            animation: fadeIn 0.6s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+
+        .signup-section {
+            animation: fadeIn 0.6s ease-out 0.7s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- アニメーション背景 -->
+    <div class="bg-container">
+        <div class="gradient-orb orb1"></div>
+        <div class="gradient-orb orb2"></div>
+    </div>
+
+    <!-- ログインコンテナ -->
+    <div class="login-container">
+        <div class="glass-card">
+            <!-- ロゴセクション -->
+            <div class="logo-section">
+                <div class="logo-wrapper">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                        <path d="M7.5 4.21l4.5 2.6 4.5-2.6"></path>
+                        <path d="M7.5 19.79V14.6L3 12"></path>
+                        <path d="M21 12l-4.5 2.6v5.19"></path>
+                        <path d="M3.27 6.96L12 12.01l8.73-5.05"></path>
+                        <path d="M12 22.08V12"></path>
+                    </svg>
+                </div>
+                <h1 class="app-title">InFree</h1>
+                <p class="app-subtitle">スマートな請求書管理を始めよう</p>
+            </div>
+
+            <!-- ログインフォーム -->
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="email">メールアドレス</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" class="form-input" placeholder="your@email.com" required
+                            autocomplete="email">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">パスワード</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" class="form-input" placeholder="••••••••" required
+                            autocomplete="current-password">
+                        <button type="button" class="password-toggle" id="toggle-password">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="remember" class="checkbox-input">
+                        <label for="remember" class="checkbox-label">ログイン状態を保持</label>
+                    </div>
+                    <a href="password_reset.html" class="forgot-link">パスワードを忘れた？</a>
+                </div>
+
+                <button type="submit" class="login-button">
+                    ログイン
+                </button>
+            </form>
+
+            <!-- 分割線 -->
+            <div class="divider">
+                <div class="divider-line"></div>
+                <div class="divider-text">または</div>
+                <div class="divider-line"></div>
+            </div>
+
+            <!-- ソーシャルログイン -->
+            <div class="social-login">
+                <button class="social-button">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                            fill="#4285F4" />
+                        <path
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                            fill="#34A853" />
+                        <path
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                            fill="#FBBC05" />
+                        <path
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                            fill="#EA4335" />
+                    </svg>
+                </button>
+
+                <button class="social-button">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.71c-2.78.61-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.03A9.58 9.58 0 0112 6.8c.85 0 1.7.11 2.5.33 1.91-1.3 2.75-1.03 2.75-1.03.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0022 12c0-5.523-4.477-10-10-10z"
+                            fill="#ffffff" />
+                    </svg>
+                </button>
+
+                <button class="social-button">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.19 0 2.34-.21 3.41-.6.3-.11.49-.4.49-.72 0-.43-.35-.78-.78-.78-.17 0-.33.06-.46.14-.85.32-1.74.48-2.66.48-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8c0 .9-.18 1.75-.5 2.54-.31.74-.79 1.39-1.4 2-.64.64-1.31 1.17-1.91 1.61-.78.58-1.16 1.24-1.16 1.93 0 .82.66 1.48 1.48 1.48.39 0 .75-.15 1.01-.41l.01-.01c.75-.75 1.45-1.55 2.04-2.46.67-1.04 1.14-2.19 1.38-3.44.13-.66.2-1.35.2-2.05 0-5.52-4.48-10-10-10z"
+                            fill="#ffffff" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- サインアップセクション -->
+            <div class="signup-section">
+                <p class="signup-text">
+                    初めてご利用ですか？
+                    <a href="signup.html" class="signup-link">アカウントを作成</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // パスワード表示切り替え
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            // アイコンの切り替え
+            this.innerHTML = type === 'password' ? `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      ` : `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        </svg>
+      `;
+        });
+
+        // フォーム送信
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // ローディング状態を表示
+            const button = this.querySelector('.login-button');
+            const originalText = button.textContent;
+            button.textContent = 'ログイン中...';
+            button.style.opacity = '0.7';
+            button.disabled = true;
+
+            // デモ用：2秒後にダッシュボードへリダイレクト
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 2000);
+        });
+
+        // ソーシャルボタンのクリックイベント
+        document.querySelectorAll('.social-button').forEach(button => {
+            button.addEventListener('click', function () {
+                // アニメーション
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+
+</html>
