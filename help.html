@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InFree - ダッシュボード</title>
+    <title>InFree - ヘルプ</title>
     <style>
         * {
             margin: 0;
@@ -292,7 +292,6 @@
             color: #ffffff;
             font-size: 15px;
             font-weight: 500;
-            text-decoration: none;
         }
 
         .header-button:hover {
@@ -304,92 +303,15 @@
             height: 20px;
         }
 
-        /* ダッシュボード概要カード */
-        .overview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .overview-card {
-            background: #ffffff;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .overview-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .overview-icon.primary {
-            background: #4F46E5;
-            color: white;
-        }
-
-        .overview-icon.success {
-            background: #10B981;
-            color: white;
-        }
-
-        .overview-icon.warning {
-            background: #F59E0B;
-            color: white;
-        }
-
-        .overview-icon.info {
-            background: #3B82F6;
-            color: white;
-        }
-
-        .overview-content {
-            flex: 1;
-        }
-
-        .overview-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #6b7280;
-            margin-bottom: 4px;
-        }
-
-        .overview-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1f2937;
-        }
-
-        .overview-change {
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 4px;
-        }
-
-        .overview-change.positive {
-            color: #10B981;
-        }
-
-        .overview-change.negative {
-            color: #EF4444;
-        }
-
-        /* メインコンテンツグリッド */
+        /* コンテンツグリッド */
         .content-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 1fr;
             gap: 24px;
             flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         /* カード */
@@ -398,160 +320,209 @@
             border-radius: 8px;
             border: 1px solid #e5e7eb;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            height: fit-content;
+            padding: 32px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .card-header {
             display: flex;
-            justify-content: between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
             border-bottom: 1px solid #e5e7eb;
         }
 
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: #4F46E5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
         .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        /* ヘルプセクション */
+        .help-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
             font-size: 18px;
             font-weight: 600;
             color: #1f2937;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .card-icon {
+        .section-icon {
             width: 20px;
             height: 20px;
             color: #4F46E5;
         }
 
-        .card-action {
-            color: #4F46E5;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
+        /* FAQ */
+        .faq-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
         }
 
-        .card-action:hover {
-            color: #4338CA;
-        }
-
-        /* 請求書リスト */
-        .invoice-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .invoice-item {
+        .faq-question {
+            padding: 20px;
+            background: #f9fafb;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px;
-            background: #f9fafb;
-            border-radius: 6px;
-            border: 1px solid #f3f4f6;
-        }
-
-        .invoice-info {
-            flex: 1;
-        }
-
-        .invoice-number {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 4px;
-        }
-
-        .invoice-client {
-            font-size: 13px;
-            color: #6b7280;
-        }
-
-        .invoice-amount {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 4px;
-        }
-
-        .invoice-status {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
             font-weight: 500;
+            color: #1f2937;
+            transition: background-color 0.2s ease;
         }
 
-        .invoice-status.pending {
-            background: #FEF3C7;
-            color: #92400E;
+        .faq-question:hover {
+            background: #f3f4f6;
         }
 
-        .invoice-status.paid {
-            background: #D1FAE5;
-            color: #065F46;
+        .faq-question.active {
+            background: #4F46E5;
+            color: #ffffff;
         }
 
-        .invoice-status.overdue {
-            background: #FEE2E2;
-            color: #991B1B;
+        .faq-toggle {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.2s ease;
         }
 
-        /* グラフプレースホルダー */
-        .chart-placeholder {
-            height: 300px;
-            background: #f9fafb;
-            border: 2px dashed #d1d5db;
-            border-radius: 6px;
+        .faq-question.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 20px;
+            background: #ffffff;
+            color: #6b7280;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-answer.show {
+            display: block;
+        }
+
+        /* ガイドステップ */
+        .guide-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .step-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .step-card:hover {
+            border-color: #4F46E5;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #4F46E5;
+            color: #ffffff;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        /* 空状態 */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .empty-icon {
-            width: 64px;
-            height: 64px;
-            color: #d1d5db;
+            font-size: 18px;
+            font-weight: 600;
             margin: 0 auto 16px;
         }
 
-        .empty-title {
+        .step-title {
             font-size: 16px;
             font-weight: 600;
-            color: #374151;
+            color: #1f2937;
             margin-bottom: 8px;
         }
 
-        .empty-description {
+        .step-description {
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* お問い合わせカード */
+        .contact-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: #4F46E5;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .contact-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .contact-description {
             font-size: 14px;
             color: #6b7280;
             margin-bottom: 20px;
+            line-height: 1.6;
         }
 
-        .empty-action {
+        .contact-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             padding: 12px 24px;
             background: #4F46E5;
-            color: white;
+            color: #ffffff;
             border: none;
             border-radius: 6px;
             font-size: 14px;
             font-weight: 500;
-            cursor: pointer;
             text-decoration: none;
-            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
-        .empty-action:hover {
+        .contact-button:hover {
             background: #4338CA;
         }
 
@@ -562,7 +533,6 @@
             }
 
             .content-grid {
-                grid-template-columns: 1fr 1fr;
                 gap: 32px;
                 width: 100%;
             }
@@ -965,7 +935,7 @@
     <!-- サイドバー -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <a href="#" class="logo-container">
+            <a href="dashboard.html" class="logo-container">
                 <div class="logo">
                     <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path
@@ -984,7 +954,7 @@
         <nav class="nav-menu">
             <div class="nav-section">
                 <div class="nav-section-title">メイン</div>
-                <a href="#" class="nav-item active">
+                <a href="dashboard.html" class="nav-item">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
                     </svg>
@@ -1016,7 +986,7 @@
                     </svg>
                     <span class="nav-text">設定</span>
                 </a>
-                <a href="help.html" class="nav-item">
+                <a href="#" class="nav-item active">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M13,19h-2v-2h2V19z M15.07,11.25l-0.9,0.92 C13.45,12.9,13,13.5,13,15h-2v-0.5c0-1.1,0.45-2.1,1.17-2.83l1.24-1.26c0.37-0.36,0.59-0.86,0.59-1.41c0-1.1-0.9-2-2-2 s-2,0.9-2,2H8c0-2.21,1.79-4,4-4s4,1.79,4,4C16,9.64,15.62,10.57,15.07,11.25z" />
@@ -1047,162 +1017,217 @@
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                     </svg>
                 </button>
-                <h1 class="title-text">ダッシュボード</h1>
+                <h1 class="title-text">ヘルプ</h1>
             </div>
             <div class="header-actions">
-                <a href="create-invoice.html" class="header-button">
+                <a href="mailto:support@infree.jp" class="header-button">
                     <svg class="button-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        <path
+                            d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                     </svg>
-                    <span>新しい請求書</span>
+                    <span>お問い合わせ</span>
                 </a>
             </div>
         </header>
 
-        <!-- 概要カード -->
-        <div class="overview-grid">
-            <div class="overview-card">
-                <div class="overview-icon primary">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                    </svg>
-                </div>
-                <div class="overview-content">
-                    <div class="overview-label">今月の売上</div>
-                    <div class="overview-value">¥2,450,000</div>
-                    <div class="overview-change positive">+12.5% 前月比</div>
-                </div>
-            </div>
-
-            <div class="overview-card">
-                <div class="overview-icon warning">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-                    </svg>
-                </div>
-                <div class="overview-content">
-                    <div class="overview-label">未払い請求書</div>
-                    <div class="overview-value">8件</div>
-                    <div class="overview-change negative">¥1,250,000</div>
-                </div>
-            </div>
-
-            <div class="overview-card">
-                <div class="overview-icon success">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
-                    </svg>
-                </div>
-                <div class="overview-content">
-                    <div class="overview-label">支払済み</div>
-                    <div class="overview-value">16件</div>
-                    <div class="overview-change positive">¥1,200,000</div>
-                </div>
-            </div>
-
-            <div class="overview-card">
-                <div class="overview-icon info">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.11 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z" />
-                    </svg>
-                </div>
-                <div class="overview-content">
-                    <div class="overview-label">総請求書数</div>
-                    <div class="overview-value">24件</div>
-                    <div class="overview-change positive">今月</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- メインコンテンツ -->
+        <!-- コンテンツ -->
         <div class="content-grid">
-            <!-- 最近の請求書 -->
+            <!-- 使い方ガイド -->
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">
-                        <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path
-                                d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.11 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
                         </svg>
-                        最近の請求書
-                    </h2>
-                    <a href="invoice-list.html" class="card-action">すべて表示</a>
+                    </div>
+                    <h2 class="card-title">使い方ガイド</h2>
                 </div>
-                <div class="invoice-list">
-                    <div class="invoice-item">
-                        <div class="invoice-info">
-                            <div class="invoice-number">INV-2025-001</div>
-                            <div class="invoice-client">株式会社サンプル</div>
+
+                <div class="help-section">
+                    <h3 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                        はじめよう
+                    </h3>
+                    <div class="guide-steps">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <div class="step-title">会社情報を設定</div>
+                            <div class="step-description">設定画面で会社名、住所、連絡先などの基本情報を登録します。</div>
                         </div>
-                        <div>
-                            <div class="invoice-amount">¥330,000</div>
-                            <div class="invoice-status pending">未払い</div>
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <div class="step-title">クライアント登録</div>
+                            <div class="step-description">請求先となるクライアント情報を事前に登録しておきます。</div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <div class="step-title">請求書作成</div>
+                            <div class="step-description">請求書作成画面で必要な情報を入力し、PDF出力します。</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                        </svg>
+                        基本操作
+                    </h3>
+                    <p style="color: #6b7280; line-height: 1.6; margin-bottom: 16px;">
+                        InFreeは直感的な操作で請求書作成ができるよう設計されています。以下の手順で簡単に請求書を作成できます。
+                    </p>
+                    <ol style="color: #6b7280; line-height: 1.8; padding-left: 20px;">
+                        <li>左メニューから「請求書作成」をクリック</li>
+                        <li>請求先情報を入力または選択</li>
+                        <li>品目、数量、単価を入力</li>
+                        <li>プレビューで内容を確認</li>
+                        <li>「PDF出力」ボタンでダウンロード</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- よくある質問 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M13,19h-2v-2h2V19z M15.07,11.25l-0.9,0.92 C13.45,12.9,13,13.5,13,15h-2v-0.5c0-1.1,0.45-2.1,1.17-2.83l1.24-1.26c0.37-0.36,0.59-0.86,0.59-1.41c0-1.1-0.9-2-2-2 s-2,0.9-2,2H8c0-2.21,1.79-4,4-4s4,1.79,4,4C16,9.64,15.62,10.57,15.07,11.25z" />
+                        </svg>
+                    </div>
+                    <h2 class="card-title">よくある質問</h2>
+                </div>
+
+                <div class="help-section">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>請求書番号は自動で設定されますか？</span>
+                            <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                            </svg>
+                        </div>
+                        <div class="faq-answer">
+                            はい、請求書番号は「INV-YYYY-XXX」の形式で自動生成されます。手動で変更することも可能です。
                         </div>
                     </div>
 
-                    <div class="invoice-item">
-                        <div class="invoice-info">
-                            <div class="invoice-number">INV-2025-002</div>
-                            <div class="invoice-client">テスト商事株式会社</div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>消費税率は変更できますか？</span>
+                            <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                            </svg>
                         </div>
-                        <div>
-                            <div class="invoice-amount">¥220,000</div>
-                            <div class="invoice-status paid">支払済み</div>
-                        </div>
-                    </div>
-
-                    <div class="invoice-item">
-                        <div class="invoice-info">
-                            <div class="invoice-number">INV-2025-003</div>
-                            <div class="invoice-client">ABC株式会社</div>
-                        </div>
-                        <div>
-                            <div class="invoice-amount">¥165,000</div>
-                            <div class="invoice-status overdue">期限超過</div>
+                        <div class="faq-answer">
+                            はい、請求書作成時に消費税率を任意に設定できます。デフォルトは10%ですが、軽減税率の8%なども設定可能です。
                         </div>
                     </div>
 
-                    <div class="invoice-item">
-                        <div class="invoice-info">
-                            <div class="invoice-number">INV-2025-004</div>
-                            <div class="invoice-client">デモ企業</div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>作成した請求書はどこに保存されますか？</span>
+                            <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                            </svg>
                         </div>
-                        <div>
-                            <div class="invoice-amount">¥440,000</div>
-                            <div class="invoice-status pending">未払い</div>
+                        <div class="faq-answer">
+                            作成した請求書はクラウドに自動保存され、「請求書一覧」から確認できます。下書き保存も可能です。
                         </div>
                     </div>
 
-                    <div class="invoice-item">
-                        <div class="invoice-info">
-                            <div class="invoice-number">INV-2025-005</div>
-                            <div class="invoice-client">株式会社example</div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>PDFファイルをカスタマイズできますか？</span>
+                            <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                            </svg>
                         </div>
-                        <div>
-                            <div class="invoice-amount">¥275,000</div>
-                            <div class="invoice-status paid">支払済み</div>
+                        <div class="faq-answer">
+                            現在のバージョンでは基本的なレイアウトのみ対応していますが、今後のアップデートでテンプレート機能を追加予定です。
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>複数の会社で利用できますか？</span>
+                            <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                            </svg>
+                        </div>
+                        <div class="faq-answer">
+                            現在は1つのアカウントにつき1つの会社情報のみ登録可能です。複数会社対応は今後の機能拡張で検討中です。
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>データのバックアップは取られていますか？</span>
+                            <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                            </svg>
+                        </div>
+                        <div class="faq-answer">
+                            はい、すべてのデータは安全なクラウドストレージに保存され、定期的にバックアップが実行されています。
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 売上グラフ（オプション） -->
+            <!-- お問い合わせ -->
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">
-                        <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path
-                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" />
+                                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                         </svg>
-                        売上推移
-                    </h2>
+                    </div>
+                    <h2 class="card-title">サポート</h2>
                 </div>
-                <div class="chart-placeholder">
-                    グラフ機能は開発中です<br>
-                    実装時にはChart.jsなどを使用して売上推移を表示します
+
+                <div class="help-section">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
+                        </div>
+                        <div class="contact-title">メールサポート</div>
+                        <div class="contact-description">
+                            ご不明な点やトラブルがございましたら、お気軽にお問い合わせください。<br>
+                            営業時間：平日 9:00-18:00（土日祝除く）
+                        </div>
+                        <a href="mailto:support@infree.jp" class="contact-button">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
+                            support@infree.jp
+                        </a>
+                    </div>
+
+                    <div style="margin-top: 24px;">
+                        <h3 class="section-title">
+                            <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            リソース
+                        </h3>
+                        <ul style="color: #6b7280; line-height: 1.8; padding-left: 20px;">
+                            <li>ユーザーガイド（PDF版）- 準備中</li>
+                            <li>チュートリアル動画 - 準備中</li>
+                            <li>API仕様書 - 準備中</li>
+                            <li>アップデート情報</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1215,23 +1240,31 @@
             sidebar.classList.toggle('mobile-open');
         }
 
-        // サイドバー外クリックで閉じる
-        document.addEventListener('click', function (event) {
-            const sidebar = document.getElementById('sidebar');
-            const toggleButtons = document.querySelectorAll('.header-toggle, .sidebar-toggle');
+        // FAQトグル
+        function toggleFaq(questionElement) {
+            const isActive = questionElement.classList.contains('active');
+            const answer = questionElement.nextElementSibling;
 
-            // クリックされた要素がサイドバーまたはトグルボタンでない場合
-            if (!sidebar.contains(event.target) &&
-                !Array.from(toggleButtons).some(btn => btn.contains(event.target))) {
-                sidebar.classList.remove('mobile-open');
+            // すべてのFAQを閉じる
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.classList.remove('active');
+                q.nextElementSibling.classList.remove('show');
+            });
+
+            // クリックされたFAQが非アクティブだった場合は開く
+            if (!isActive) {
+                questionElement.classList.add('active');
+                answer.classList.add('show');
             }
-        });
+        }
 
-        // ウィンドウリサイズイベント
-        window.addEventListener('resize', function () {
-            const sidebar = document.getElementById('sidebar');
-            if (window.innerWidth > 992) {
-                sidebar.classList.remove('mobile-open');
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function () {
+            // 最初のFAQを開いておく
+            const firstQuestion = document.querySelector('.faq-question');
+            if (firstQuestion) {
+                firstQuestion.classList.add('active');
+                firstQuestion.nextElementSibling.classList.add('show');
             }
         });
     </script>

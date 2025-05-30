@@ -15,125 +15,26 @@
 
         body {
             min-height: 100vh;
-            background: #0a0a0a;
+            background: #f5f5f5;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            position: relative;
-        }
-
-        /* アニメーション背景 */
-        .bg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .gradient-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.7;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .orb1 {
-            width: 600px;
-            height: 600px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            top: -300px;
-            right: -300px;
-            animation-delay: 0s;
-        }
-
-        .orb2 {
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            bottom: -250px;
-            left: -250px;
-            animation-delay: 5s;
-        }
-
-
-        .orb4 {
-            width: 350px;
-            height: 350px;
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            bottom: 20%;
-            right: 30%;
-            animation-delay: 15s;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-            }
-
-            25% {
-                transform: translate(100px, -100px) scale(1.1) rotate(90deg);
-            }
-
-            50% {
-                transform: translate(-100px, 100px) scale(0.9) rotate(180deg);
-            }
-
-            75% {
-                transform: translate(50px, 50px) scale(1.05) rotate(270deg);
-            }
         }
 
         /* メインコンテナ */
         .signup-container {
             width: 100%;
             max-width: 480px;
-            z-index: 1;
         }
 
-        /* グラスモーフィズムカード */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow:
-                0 8px 32px 0 rgba(0, 0, 0, 0.37),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-            padding: 48px 40px;
+        /* カード */
+        .signup-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
             position: relative;
-            overflow: hidden;
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.3),
-                    transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
         }
 
         /* ヘッダーセクション */
@@ -148,40 +49,54 @@
             left: 20px;
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease;
             text-decoration: none;
         }
 
         .back-button:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateX(-2px);
+            background: #f9fafb;
         }
 
         .back-icon {
             width: 20px;
             height: 20px;
-            color: rgba(255, 255, 255, 0.8);
+            color: #6b7280;
+        }
+
+        .logo-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: #4F46E5;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            color: white;
         }
 
         .header-title {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            color: #1a1a1a;
+            margin-bottom: 4px;
         }
 
         .header-subtitle {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 400;
+            font-size: 14px;
+            color: #6b7280;
         }
 
         /* ステップインジケーター */
@@ -196,14 +111,14 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: #e5e7eb;
             transition: all 0.3s ease;
         }
 
         .step-dot.active {
             width: 24px;
             border-radius: 4px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #4F46E5;
         }
 
         /* フォーム */
@@ -226,12 +141,12 @@
             display: block;
             font-size: 14px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 8px;
+            color: #374151;
+            margin-bottom: 6px;
         }
 
         .form-label .required {
-            color: #f093fb;
+            color: #dc2626;
             margin-left: 4px;
         }
 
@@ -241,79 +156,60 @@
 
         .form-input {
             width: 100%;
-            height: 48px;
-            padding: 0 48px 0 16px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            height: 44px;
+            padding: 0 40px 0 12px;
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            color: #1a1a1a;
+            font-size: 15px;
+            transition: border-color 0.2s ease;
         }
 
         .form-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+            color: #9ca3af;
         }
 
         .form-input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(102, 126, 234, 0.5);
-            box-shadow:
-                0 0 0 3px rgba(102, 126, 234, 0.1),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            border-color: #4F46E5;
         }
 
         .form-input.error {
-            border-color: rgba(245, 87, 108, 0.5);
-        }
-
-        .form-input.error:focus {
-            box-shadow:
-                0 0 0 3px rgba(245, 87, 108, 0.1),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            border-color: #dc2626;
         }
 
         .input-icon {
             position: absolute;
-            right: 16px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            color: rgba(255, 255, 255, 0.4);
-            transition: color 0.3s ease;
-        }
-
-        .input-wrapper:focus-within .input-icon {
-            color: rgba(102, 126, 234, 0.8);
+            width: 18px;
+            height: 18px;
+            color: #9ca3af;
         }
 
         .password-toggle {
             background: none;
             border: none;
             position: absolute;
-            right: 16px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
             padding: 4px;
-            color: rgba(255, 255, 255, 0.4);
-            transition: all 0.3s ease;
-            border-radius: 6px;
+            color: #9ca3af;
         }
 
         .password-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.8);
+            color: #6b7280;
         }
 
         /* パスワード強度インジケーター */
         .password-strength {
             margin-top: 8px;
             height: 4px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #e5e7eb;
             border-radius: 2px;
             overflow: hidden;
         }
@@ -327,144 +223,104 @@
 
         .strength-weak {
             width: 33%;
-            background: #f5576c;
+            background: #dc2626;
         }
 
         .strength-medium {
             width: 66%;
-            background: #fa709a;
+            background: #f59e0b;
         }
 
         .strength-strong {
             width: 100%;
-            background: #4facfe;
+            background: #10b981;
         }
 
         .strength-text {
             font-size: 12px;
             margin-top: 4px;
-            color: rgba(255, 255, 255, 0.6);
+            color: #6b7280;
         }
 
         /* エラーメッセージ */
         .error-message {
             font-size: 12px;
-            color: #f5576c;
+            color: #dc2626;
             margin-top: 4px;
             display: none;
         }
 
         .error-message.show {
             display: block;
-            animation: shake 0.3s ease;
-        }
-
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-4px);
-            }
-
-            75% {
-                transform: translateX(4px);
-            }
         }
 
         /* チェックボックス */
         .checkbox-wrapper {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 8px;
             margin-bottom: 24px;
         }
 
         .checkbox-input {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             margin-top: 2px;
-            accent-color: #667eea;
+            accent-color: #4F46E5;
             cursor: pointer;
             flex-shrink: 0;
         }
 
         .checkbox-label {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
+            color: #6b7280;
             line-height: 1.5;
+            cursor: pointer;
         }
 
         .checkbox-label a {
-            color: #667eea;
+            color: #4F46E5;
             text-decoration: none;
-            transition: color 0.3s ease;
         }
 
         .checkbox-label a:hover {
-            color: #764ba2;
             text-decoration: underline;
         }
 
         /* ボタン */
         .submit-button {
             width: 100%;
-            height: 52px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 44px;
+            background: #4F46E5;
             border: none;
-            border-radius: 12px;
+            border-radius: 6px;
             color: white;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            transition: background-color 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
 
-        .submit-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.3),
-                    transparent);
-            transition: left 0.5s ease;
-        }
-
         .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .submit-button:hover::before {
-            left: 100%;
+            background: #4338CA;
         }
 
         .submit-button:active {
-            transform: translateY(0);
+            background: #3730A3;
         }
 
         .submit-button:disabled {
-            opacity: 0.6;
+            background: #9ca3af;
             cursor: not-allowed;
         }
 
         .button-spinner {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-top-color: white;
             border-radius: 50%;
@@ -482,22 +338,19 @@
         .divider {
             display: flex;
             align-items: center;
-            margin: 32px 0;
+            margin: 24px 0;
             gap: 16px;
         }
 
         .divider-line {
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.1),
-                    transparent);
+            background: #e5e7eb;
         }
 
         .divider-text {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
+            color: #9ca3af;
         }
 
         /* ソーシャルボタン */
@@ -508,62 +361,58 @@
 
         .social-button {
             flex: 1;
-            height: 48px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            height: 44px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
         }
 
         .social-button:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            background: #f9fafb;
+            border-color: #d1d5db;
         }
 
         .social-icon {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
         }
 
         /* ログインリンク */
         .login-section {
             text-align: center;
-            margin-top: 32px;
-            padding-top: 32px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
         }
 
         .login-text {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
+            color: #6b7280;
         }
 
         .login-link {
-            color: #667eea;
+            color: #4F46E5;
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+            font-weight: 500;
         }
 
         .login-link:hover {
-            color: #764ba2;
             text-decoration: underline;
         }
 
         /* レスポンシブ */
         @media (max-width: 480px) {
-            .glass-card {
-                padding: 32px 24px;
+            .signup-card {
+                padding: 24px;
             }
 
             .header-title {
-                font-size: 24px;
+                font-size: 20px;
             }
 
             .form-grid {
@@ -576,100 +425,24 @@
                 width: 36px;
                 height: 36px;
             }
-        }
 
-        /* アニメーション */
-        .glass-card {
-            animation: slideUp 0.6s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+            .logo-wrapper {
+                width: 50px;
+                height: 50px;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .form-group {
-            animation: fadeIn 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .form-group:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .form-group:nth-child(2) {
-            animation-delay: 0.15s;
-        }
-
-        .form-group:nth-child(3) {
-            animation-delay: 0.2s;
-        }
-
-        .form-group:nth-child(4) {
-            animation-delay: 0.25s;
-        }
-
-        .form-group:nth-child(5) {
-            animation-delay: 0.3s;
-        }
-
-        .checkbox-wrapper {
-            animation: fadeIn 0.6s ease-out 0.35s forwards;
-            opacity: 0;
-        }
-
-        .submit-button {
-            animation: fadeIn 0.6s ease-out 0.4s forwards;
-            opacity: 0;
-        }
-
-        .divider {
-            animation: fadeIn 0.6s ease-out 0.45s forwards;
-            opacity: 0;
-        }
-
-        .social-signup {
-            animation: fadeIn 0.6s ease-out 0.5s forwards;
-            opacity: 0;
-        }
-
-        .login-section {
-            animation: fadeIn 0.6s ease-out 0.55s forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .logo-icon {
+                width: 28px;
+                height: 28px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- アニメーション背景 -->
-    <div class="bg-container">
-        <div class="gradient-orb orb1"></div>
-        <div class="gradient-orb orb2"></div>
-        <div class="gradient-orb orb4"></div>
-    </div>
-
     <!-- サインアップコンテナ -->
     <div class="signup-container">
-        <div class="glass-card">
+        <div class="signup-card">
             <!-- 戻るボタン -->
             <a href="login.html" class="back-button" aria-label="ログイン画面に戻る">
                 <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -679,6 +452,16 @@
 
             <!-- ヘッダーセクション -->
             <div class="header-section">
+                <div class="logo-wrapper">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
                 <h1 class="header-title">アカウント作成</h1>
                 <p class="header-subtitle">InFreeで請求書管理を始めましょう</p>
             </div>
@@ -769,7 +552,7 @@
                         <input type="password" id="password" class="form-input" placeholder="8文字以上の安全なパスワード" required
                             autocomplete="new-password">
                         <button type="button" class="password-toggle" id="toggle-password">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                 <circle cx="12" cy="12" r="3"></circle>
@@ -792,7 +575,7 @@
                         <input type="password" id="password-confirm" class="form-input" placeholder="パスワードを再入力" required
                             autocomplete="new-password">
                         <button type="button" class="password-toggle" id="toggle-password-confirm">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                 <circle cx="12" cy="12" r="3"></circle>
@@ -828,7 +611,7 @@
             <!-- ソーシャルサインアップ -->
             <div class="social-signup">
                 <button class="social-button" title="Googleで登録">
-                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <svg class="social-icon" viewBox="0 0 24 24">
                         <path
                             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                             fill="#4285F4" />
@@ -845,18 +628,16 @@
                 </button>
 
                 <button class="social-button" title="GitHubで登録">
-                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="#333">
                         <path
-                            d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.71c-2.78.61-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.03A9.58 9.58 0 0112 6.8c.85 0 1.7.11 2.5.33 1.91-1.3 2.75-1.03 2.75-1.03.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0022 12c0-5.523-4.477-10-10-10z"
-                            fill="#ffffff" />
+                            d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.71c-2.78.61-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.03A9.58 9.58 0 0112 6.8c.85 0 1.7.11 2.5.33 1.91-1.3 2.75-1.03 2.75-1.03.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0022 12c0-5.523-4.477-10-10-10z" />
                     </svg>
                 </button>
 
-                <button class="social-button" title="Appleで登録">
-                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                <button class="social-button" title="Microsoftで登録">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="#00a1f1">
                         <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.19 0 2.34-.21 3.41-.6.3-.11.49-.4.49-.72 0-.43-.35-.78-.78-.78-.17 0-.33.06-.46.14-.85.32-1.74.48-2.66.48-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8c0 .9-.18 1.75-.5 2.54-.31.74-.79 1.39-1.4 2-.64.64-1.31 1.17-1.91 1.61-.78.58-1.16 1.24-1.16 1.93 0 .82.66 1.48 1.48 1.48.39 0 .75-.15 1.01-.41l.01-.01c.75-.75 1.45-1.55 2.04-2.46.67-1.04 1.14-2.19 1.38-3.44.13-.66.2-1.35.2-2.05 0-5.52-4.48-10-10-10z"
-                            fill="#ffffff" />
+                            d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z" />
                     </svg>
                 </button>
             </div>
@@ -882,12 +663,12 @@
                 input.setAttribute('type', type);
 
                 this.innerHTML = type === 'password' ? `
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
             <circle cx="12" cy="12" r="3"></circle>
           </svg>
         ` : `
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
             <line x1="1" y1="1" x2="23" y2="23"></line>
           </svg>
