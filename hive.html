@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flutter Hive 実装ガイド</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            margin-bottom: 60px;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        }
+        
+        h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1d1d1f;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .code-title {
+            color: #9ca3af;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .code-lang {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        pre {
+            margin: 0;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #e1e4e8;
+        }
+        
+        .highlight-comment {
+            color: #6a737d;
+            font-style: italic;
+        }
+        
+        .highlight-keyword {
+            color: #f97583;
+        }
+        
+        .highlight-string {
+            color: #9ecbff;
+        }
+        
+        .highlight-class {
+            color: #b392f0;
+        }
+        
+        .highlight-function {
+            color: #79c0ff;
+        }
+        
+        .step-card {
+            background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .step-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-weight: 600;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #e0e7ff 100%);
+            border-left: 4px solid #3b82f6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fee2e2 100%);
+            border-left: 4px solid #f59e0b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 0 5px 10px 0;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0 20px 0;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab.active {
+            color: #667eea;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🎯 Flutter Hive 完全実装ガイド</h1>
+            <p>軽量・高速なNoSQLデータベースで、ローカルデータを効率的に管理</p>
+        </div>
+
+        <div class="section">
+            <h2>
+                <span class="section-icon">📦</span>
+                1. セットアップ
+            </h2>
+            
+            <div class="step-card">
+                <h3><span class="step-number">1</span>パッケージの追加</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">pubspec.yaml</span>
+                        <span class="code-lang">YAML</span>
+                    </div>
+                    <pre><span class="highlight-keyword">dependencies:</span>
+  <span class="highlight-class">hive</span>: ^2.2.3
+  <span class="highlight-class">hive_flutter</span>: ^1.1.0
+  
+<span class="highlight-keyword">dev_dependencies:</span>
+  <span class="highlight-class">hive_generator</span>: ^2.0.1
+  <span class="highlight-class">build_runner</span>: ^2.4.15</pre>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <h3><span class="step-number">2</span>初期化処理</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">main.dart</span>
+                        <span class="code-lang">Dart</span>
+                    </div>
+                    <pre><span class="highlight-keyword">import</span> <span class="highlight-string">'package:flutter/material.dart'</span>;
+<span class="highlight-keyword">import</span> <span class="highlight-string">'package:hive_flutter/hive_flutter.dart'</span>;
+<span class="highlight-keyword">import</span> <span class="highlight-string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+
+<span class="highlight-keyword">void</span> <span class="highlight-function">main</span>() <span class="highlight-keyword">async</span> {
+  <span class="highlight-comment">// Flutter bindingの初期化</span>
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  <span class="highlight-comment">// Hiveの初期化</span>
+  <span class="highlight-keyword">await</span> Hive.initFlutter();
+  
+  <span class="highlight-comment">// TypeAdapterの登録（カスタムクラスを使用する場合）</span>
+  Hive.registerAdapter(TodoAdapter());
+  
+  <span class="highlight-comment">// Boxを事前に開く（オプション）</span>
+  <span class="highlight-keyword">await</span> Hive.openBox<<span class="highlight-class">Todo</span>>(<span class="highlight-string">'todos'</span>);
+  
+  runApp(<span class="highlight-keyword">const</span> ProviderScope(child: MyApp()));
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <span class="section-icon">🔧</span>
+                2. モデルクラスの実装
+            </h2>
+            
+            <div class="info-box">
+                <strong>💡 ポイント:</strong> HiveTypeとHiveFieldアノテーションを使用して、カスタムクラスをHiveで扱えるようにします。freezedと組み合わせることも可能です。
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">models/todo.dart</span>
+                    <span class="code-lang">Dart</span>
+                </div>
+                <pre><span class="highlight-keyword">import</span> <span class="highlight-string">'package:hive/hive.dart'</span>;
+<span class="highlight-keyword">import</span> <span class="highlight-string">'package:freezed_annotation/freezed_annotation.dart'</span>;
+
+<span class="highlight-keyword">part</span> <span class="highlight-string">'todo.g.dart'</span>;
+<span class="highlight-keyword">part</span> <span class="highlight-string">'todo.freezed.dart'</span>;
+
+<span class="highlight-comment">// HiveTypeのtypeIdは一意で変更不可</span>
+@HiveType(typeId: 0)
+@freezed
+<span class="highlight-keyword">class</span> <span class="highlight-class">Todo</span> <span class="highlight-keyword">with</span> _$Todo {
+  <span class="highlight-keyword">const</span> <span class="highlight-keyword">factory</span> Todo({
+    @HiveField(0) <span class="highlight-keyword">required</span> String id,
+    @HiveField(1) <span class="highlight-keyword">required</span> String title,
+    @HiveField(2) <span class="highlight-keyword">required</span> String description,
+    @HiveField(3) @Default(<span class="highlight-keyword">false</span>) bool isCompleted,
+    @HiveField(4) <span class="highlight-keyword">required</span> DateTime createdAt,
+    @HiveField(5) DateTime? completedAt,
+  }) = _Todo;
+}</pre>
+            </div>
+
+            <div class="step-card">
+                <h3><span class="step-number">3</span>コード生成の実行</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Terminal</span>
+                        <span class="code-lang">Bash</span>
+                    </div>
+                    <pre><span class="highlight-comment"># TypeAdapterとfreezedファイルの生成</span>
+flutter pub run build_runner build --delete-conflicting-outputs</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <span class="section-icon">💾</span>
+                3. Repository層の実装
+            </h2>
+            
+            <p style="margin-bottom: 20px;">Riverpodと組み合わせてSSOT原則に従った実装を行います。</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">repositories/todo_repository.dart</span>
+                    <span class="code-lang">Dart</span>
+                </div>
+                <pre><span class="highlight-keyword">import</span> <span class="highlight-string">'package:hive_flutter/hive_flutter.dart'</span>;
+<span class="highlight-keyword">import</span> <span class="highlight-string">'package:riverpod_annotation/riverpod_annotation.dart'</span>;
+
+<span class="highlight-keyword">part</span> <span class="highlight-string">'todo_repository.g.dart'</span>;
+
+@riverpod
+<span class="highlight-class">TodoRepository</span> <span class="highlight-function">todoRepository</span>(TodoRepositoryRef ref) {
+  <span class="highlight-keyword">return</span> TodoRepository();
+}
+
+<span class="highlight-keyword">class</span> <span class="highlight-class">TodoRepository</span> {
+  <span class="highlight-keyword">static</span> <span class="highlight-keyword">const</span> String _boxName = <span class="highlight-string">'todos'</span>;
+  
+  <span class="highlight-comment">// Boxの取得（遅延初期化）</span>
+  Future<<span class="highlight-class">Box</span><<span class="highlight-class">Todo</span>>> <span class="highlight-function">_getBox</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">if</span> (!Hive.isBoxOpen(_boxName)) {
+      <span class="highlight-keyword">return</span> <span class="highlight-keyword">await</span> Hive.openBox<<span class="highlight-class">Todo</span>>(_boxName);
+    }
+    <span class="highlight-keyword">return</span> Hive.box<<span class="highlight-class">Todo</span>>(_boxName);
+  }
+  
+  <span class="highlight-comment">// すべてのTodoを取得</span>
+  Future<<span class="highlight-class">List</span><<span class="highlight-class">Todo</span>>> <span class="highlight-function">getAllTodos</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getBox();
+    <span class="highlight-keyword">return</span> box.values.toList();
+  }
+  
+  <span class="highlight-comment">// Todoを追加</span>
+  Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">addTodo</span>(Todo todo) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getBox();
+    <span class="highlight-keyword">await</span> box.put(todo.id, todo);
+  }
+  
+  <span class="highlight-comment">// Todoを更新</span>
+  Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">updateTodo</span>(Todo todo) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getBox();
+    <span class="highlight-keyword">await</span> box.put(todo.id, todo);
+  }
+  
+  <span class="highlight-comment">// Todoを削除</span>
+  Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">deleteTodo</span>(String id) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getBox();
+    <span class="highlight-keyword">await</span> box.delete(id);
+  }
+  
+  <span class="highlight-comment">// すべてクリア</span>
+  Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">clearAll</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getBox();
+    <span class="highlight-keyword">await</span> box.clear();
+  }
+  
+  <span class="highlight-comment">// リアクティブなストリーム（ValueListenable）</span>
+  ValueListenable<<span class="highlight-class">Box</span><<span class="highlight-class">Todo</span>>> <span class="highlight-function">watchTodos</span>() {
+    <span class="highlight-keyword">return</span> Hive.box<<span class="highlight-class">Todo</span>>(_boxName).listenable();
+  }
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <span class="section-icon">⚡</span>
+                4. Provider層の実装
+            </h2>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab(event, 'state-provider')">StateNotifierProvider</button>
+                <button class="tab" onclick="switchTab(event, 'stream-provider')">StreamProvider</button>
+            </div>
+            
+            <div id="state-provider" class="tab-content active">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">providers/todo_provider.dart</span>
+                        <span class="code-lang">Dart</span>
+                    </div>
+                    <pre><span class="highlight-keyword">import</span> <span class="highlight-string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+<span class="highlight-keyword">import</span> <span class="highlight-string">'package:riverpod_annotation/riverpod_annotation.dart'</span>;
+
+<span class="highlight-keyword">part</span> <span class="highlight-string">'todo_provider.g.dart'</span>;
+
+@riverpod
+<span class="highlight-keyword">class</span> <span class="highlight-class">TodoNotifier</span> <span class="highlight-keyword">extends</span> _$TodoNotifier {
+  <span class="highlight-keyword">late</span> <span class="highlight-keyword">final</span> TodoRepository _repository;
+  
+  @override
+  Future<<span class="highlight-class">List</span><<span class="highlight-class">Todo</span>>> <span class="highlight-function">build</span>() <span class="highlight-keyword">async</span> {
+    _repository = ref.read(todoRepositoryProvider);
+    <span class="highlight-keyword">return</span> <span class="highlight-keyword">await</span> _repository.getAllTodos();
+  }
+  
+  <span class="highlight-comment">// Todoを追加</span>
+  Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">addTodo</span>({
+    <span class="highlight-keyword">required</span> String title,
+    <span class="highlight-keyword">required</span> String description,
+  }) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> todo = Todo(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      title: title,
+      description: description,
+      createdAt: DateTime.now(),
+    );
+    
+    <span class="highlight-keyword">await</span> _repository.addTodo(todo);
+    
+    <span class="highlight-comment">// 状態を更新（SSOT原則）</span>
+    <span class="highlight-keyword">final</span> currentState = <span class="highlight-keyword">await</span> future;
+    state = AsyncData([...currentState, todo]);
+  }
+  
+  <span class="highlight-comment">// Todoの完了状態を切り替え</span>
+  Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">toggleTodo</span>(String id) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> currentState = <span class="highlight-keyword">await</span> future;
+    <span class="highlight-keyword">final</span> index = currentState.indexWhere((todo) => todo.id == id);
+    
+    <span class="highlight-keyword">if</span> (index != -1) {
+      <span class="highlight-keyword">final</span> todo = currentState[index];
+      <span class="highlight-keyword">final</span> updatedTodo = todo.copyWith(
+        isCompleted: !todo.isCompleted,
+        completedAt: !todo.isCompleted ? DateTime.now() : <span class="highlight-keyword">null</span>,
+      );
+      
+      <span class="highlight-keyword">await</span> _repository.updateTodo(updatedTodo);
+      
+      <span class="highlight-comment">// 状態を更新</span>
+      state = AsyncData([
+        ...currentState.sublist(0, index),
+        updatedTodo,
+        ...currentState.sublist(index + 1),
+      ]);
+    }
+  }
+  
+  <span class="highlight-comment">// Todoを削除</span>
+  Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">deleteTodo</span>(String id) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">await</span> _repository.deleteTodo(id);
+    
+    <span class="highlight-keyword">final</span> currentState = <span class="highlight-keyword">await</span> future;
+    state = AsyncData(
+      currentState.where((todo) => todo.id != id).toList(),
+    );
+  }
+}</pre>
+                </div>
+            </div>
+            
+            <div id="stream-provider" class="tab-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">providers/todo_stream_provider.dart</span>
+                        <span class="code-lang">Dart</span>
+                    </div>
+                    <pre><span class="highlight-comment">// ValueListenableを使用したリアクティブな実装</span>
+@riverpod
+Stream<<span class="highlight-class">List</span><<span class="highlight-class">Todo</span>>> <span class="highlight-function">todoStream</span>(TodoStreamRef ref) {
+  <span class="highlight-keyword">final</span> repository = ref.watch(todoRepositoryProvider);
+  
+  <span class="highlight-comment">// ValueListenableをStreamに変換</span>
+  <span class="highlight-keyword">return</span> Stream<<span class="highlight-class">List</span><<span class="highlight-class">Todo</span>>>.value(
+    repository.watchTodos().value.values.toList(),
+  ).asyncExpand((_) <span class="highlight-keyword">async</span>* {
+    <span class="highlight-keyword">yield</span> repository.watchTodos().value.values.toList();
+  });
+}
+
+<span class="highlight-comment">// フィルタリングされたTodo（完了済みのみ）</span>
+@riverpod
+Future<<span class="highlight-class">List</span><<span class="highlight-class">Todo</span>>> <span class="highlight-function">completedTodos</span>(CompletedTodosRef ref) <span class="highlight-keyword">async</span> {
+  <span class="highlight-keyword">final</span> todos = <span class="highlight-keyword">await</span> ref.watch(todoNotifierProvider.future);
+  <span class="highlight-keyword">return</span> todos.where((todo) => todo.isCompleted).toList();
+}
+
+<span class="highlight-comment">// 統計情報</span>
+@riverpod
+Future<<span class="highlight-class">TodoStats</span>> <span class="highlight-function">todoStats</span>(TodoStatsRef ref) <span class="highlight-keyword">async</span> {
+  <span class="highlight-keyword">final</span> todos = <span class="highlight-keyword">await</span> ref.watch(todoNotifierProvider.future);
+  
+  <span class="highlight-keyword">return</span> TodoStats(
+    total: todos.length,
+    completed: todos.where((t) => t.isCompleted).length,
+    pending: todos.where((t) => !t.isCompleted).length,
+  );
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <span class="section-icon">🎨</span>
+                5. UI層の実装
+            </h2>
+            
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">screens/todo_list_screen.dart</span>
+                    <span class="code-lang">Dart</span>
+                </div>
+                <pre><span class="highlight-keyword">import</span> <span class="highlight-string">'package:flutter/material.dart'</span>;
+<span class="highlight-keyword">import</span> <span class="highlight-string">'package:flutter_riverpod/flutter_riverpod.dart'</span>;
+<span class="highlight-keyword">import</span> <span class="highlight-string">'package:gap/gap.dart'</span>;
+
+<span class="highlight-keyword">class</span> <span class="highlight-class">TodoListScreen</span> <span class="highlight-keyword">extends</span> ConsumerWidget {
+  <span class="highlight-keyword">const</span> TodoListScreen({<span class="highlight-keyword">super</span>.key});
+  
+  @override
+  Widget <span class="highlight-function">build</span>(BuildContext context, WidgetRef ref) {
+    <span class="highlight-keyword">final</span> todosAsync = ref.watch(todoNotifierProvider);
+    
+    <span class="highlight-keyword">return</span> Scaffold(
+      appBar: AppBar(
+        title: <span class="highlight-keyword">const</span> Text(<span class="highlight-string">'Todo List'</span>),
+        actions: [
+          <span class="highlight-comment">// 統計情報の表示</span>
+          Consumer(
+            builder: (context, ref, _) {
+              <span class="highlight-keyword">final</span> statsAsync = ref.watch(todoStatsProvider);
+              <span class="highlight-keyword">return</span> statsAsync.when(
+                data: (stats) => Padding(
+                  padding: <span class="highlight-keyword">const</span> EdgeInsets.all(16),
+                  child: Text(<span class="highlight-string">'完了: ${stats.completed}/${stats.total}'</span>),
+                ),
+                loading: () => <span class="highlight-keyword">const</span> CircularProgressIndicator(),
+                error: (_, __) => <span class="highlight-keyword">const</span> Icon(Icons.error),
+              );
+            },
+          ),
+        ],
+      ),
+      body: todosAsync.when(
+        data: (todos) {
+          <span class="highlight-keyword">if</span> (todos.isEmpty) {
+            <span class="highlight-keyword">return</span> <span class="highlight-keyword">const</span> Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.inbox, size: 64, color: Colors.grey),
+                  Gap(16),
+                  Text(<span class="highlight-string">'Todoがありません'</span>, style: TextStyle(fontSize: 18)),
+                ],
+              ),
+            );
+          }
+          
+          <span class="highlight-keyword">return</span> ListView.builder(
+            padding: <span class="highlight-keyword">const</span> EdgeInsets.all(16),
+            itemCount: todos.length,
+            itemBuilder: (context, index) {
+              <span class="highlight-keyword">final</span> todo = todos[index];
+              <span class="highlight-keyword">return</span> Card(
+                margin: <span class="highlight-keyword">const</span> EdgeInsets.only(bottom: 12),
+                child: ListTile(
+                  leading: Checkbox(
+                    value: todo.isCompleted,
+                    onChanged: (_) {
+                      ref.read(todoNotifierProvider.notifier)
+                        .toggleTodo(todo.id);
+                    },
+                  ),
+                  title: Text(
+                    todo.title,
+                    style: TextStyle(
+                      decoration: todo.isCompleted
+                        ? TextDecoration.lineThrough
+                        : <span class="highlight-keyword">null</span>,
+                    ),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(todo.description),
+                      <span class="highlight-keyword">const</span> Gap(4),
+                      Text(
+                        <span class="highlight-string">'作成日: ${_formatDate(todo.createdAt)}'</span>,
+                        style: <span class="highlight-keyword">const</span> TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                  trailing: IconButton(
+                    icon: <span class="highlight-keyword">const</span> Icon(Icons.delete),
+                    onPressed: () => _confirmDelete(context, ref, todo),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+        loading: () => <span class="highlight-keyword">const</span> Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(
+          child: Text(<span class="highlight-string">'エラーが発生しました: $error'</span>),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showAddDialog(context, ref),
+        child: <span class="highlight-keyword">const</span> Icon(Icons.add),
+      ),
+    );
+  }
+  
+  String <span class="highlight-function">_formatDate</span>(DateTime date) {
+    <span class="highlight-keyword">return</span> <span class="highlight-string">'${date.year}/${date.month}/${date.day}'</span>;
+  }
+  
+  <span class="highlight-keyword">void</span> <span class="highlight-function">_showAddDialog</span>(BuildContext context, WidgetRef ref) {
+    <span class="highlight-keyword">final</span> titleController = TextEditingController();
+    <span class="highlight-keyword">final</span> descController = TextEditingController();
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: <span class="highlight-keyword">const</span> Text(<span class="highlight-string">'新しいTodoを追加'</span>),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: <span class="highlight-keyword">const</span> InputDecoration(
+                labelText: <span class="highlight-string">'タイトル'</span>,
+                border: OutlineInputBorder(),
+              ),
+            ),
+            <span class="highlight-keyword">const</span> Gap(16),
+            TextField(
+              controller: descController,
+              decoration: <span class="highlight-keyword">const</span> InputDecoration(
+                labelText: <span class="highlight-string">'説明'</span>,
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 3,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: <span class="highlight-keyword">const</span> Text(<span class="highlight-string">'キャンセル'</span>),
+          ),
+          FilledButton(
+            onPressed: () {
+              ref.read(todoNotifierProvider.notifier).addTodo(
+                title: titleController.text,
+                description: descController.text,
+              );
+              Navigator.of(context).pop();
+            },
+            child: <span class="highlight-keyword">const</span> Text(<span class="highlight-string">'追加'</span>),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  <span class="highlight-keyword">void</span> <span class="highlight-function">_confirmDelete</span>(BuildContext context, WidgetRef ref, Todo todo) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: <span class="highlight-keyword">const</span> Text(<span class="highlight-string">'削除の確認'</span>),
+        content: Text(<span class="highlight-string">'「${todo.title}」を削除しますか？'</span>),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: <span class="highlight-keyword">const</span> Text(<span class="highlight-string">'キャンセル'</span>),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            onPressed: () {
+              ref.read(todoNotifierProvider.notifier).deleteTodo(todo.id);
+              Navigator.of(context).pop();
+            },
+            child: <span class="highlight-keyword">const</span> Text(<span class="highlight-string">'削除'</span>),
+          ),
+        ],
+      ),
+    );
+  }
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <span class="section-icon">🔐</span>
+                6. 高度な機能
+            </h2>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <h3>暗号化</h3>
+                    <p>機密データを保護</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💾</div>
+                    <h3>LazyBox</h3>
+                    <p>大量データの効率的な管理</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔄</div>
+                    <h3>マイグレーション</h3>
+                    <p>スキーマ変更への対応</p>
+                </div>
+            </div>
+
+            <h3>暗号化の実装</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">repositories/secure_repository.dart</span>
+                    <span class="code-lang">Dart</span>
+                </div>
+                <pre><span class="highlight-keyword">import</span> <span class="highlight-string">'package:hive_flutter/hive_flutter.dart'</span>;
+<span class="highlight-keyword">import</span> <span class="highlight-string">'dart:convert'</span>;
+<span class="highlight-keyword">import</span> <span class="highlight-string">'dart:typed_data'</span>;
+
+<span class="highlight-keyword">class</span> <span class="highlight-class">SecureRepository</span> {
+  <span class="highlight-keyword">static</span> <span class="highlight-keyword">const</span> String _secureBoxName = <span class="highlight-string">'secure_data'</span>;
+  <span class="highlight-keyword">static</span> <span class="highlight-keyword">const</span> String _keyBoxName = <span class="highlight-string">'encryption_key'</span>;
+  
+  <span class="highlight-comment">// 暗号化キーの取得または生成</span>
+  Future<<span class="highlight-class">List</span><<span class="highlight-keyword">int</span>>> <span class="highlight-function">_getEncryptionKey</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> keyBox = <span class="highlight-keyword">await</span> Hive.openBox(_keyBoxName);
+    
+    <span class="highlight-keyword">if</span> (!keyBox.containsKey(<span class="highlight-string">'key'</span>)) {
+      <span class="highlight-keyword">final</span> key = Hive.generateSecureKey();
+      <span class="highlight-keyword">await</span> keyBox.put(<span class="highlight-string">'key'</span>, key);
+    }
+    
+    <span class="highlight-keyword">return</span> keyBox.get(<span class="highlight-string">'key'</span>) <span class="highlight-keyword">as</span> <span class="highlight-class">List</span><<span class="highlight-keyword">int</span>>;
+  }
+  
+  <span class="highlight-comment">// 暗号化されたBoxを開く</span>
+  Future<<span class="highlight-class">Box</span>> <span class="highlight-function">openSecureBox</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> encryptionKey = <span class="highlight-keyword">await</span> _getEncryptionKey();
+    
+    <span class="highlight-keyword">return</span> <span class="highlight-keyword">await</span> Hive.openBox(
+      _secureBoxName,
+      encryptionCipher: HiveAesCipher(encryptionKey),
+    );
+  }
+  
+  <span class="highlight-comment">// 機密データの保存</span>
+  Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">saveSecureData</span>(String key, dynamic value) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> openSecureBox();
+    <span class="highlight-keyword">await</span> box.put(key, value);
+  }
+  
+  <span class="highlight-comment">// 機密データの取得</span>
+  Future<T?> <span class="highlight-function">getSecureData</span><T>(String key) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> openSecureBox();
+    <span class="highlight-keyword">return</span> box.get(key) <span class="highlight-keyword">as</span> T?;
+  }
+}</pre>
+            </div>
+
+            <h3>LazyBoxの実装</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">repositories/large_data_repository.dart</span>
+                    <span class="code-lang">Dart</span>
+                </div>
+                <pre><span class="highlight-keyword">class</span> <span class="highlight-class">LargeDataRepository</span> {
+  <span class="highlight-keyword">static</span> <span class="highlight-keyword">const</span> String _lazyBoxName = <span class="highlight-string">'large_data'</span>;
+  
+  <span class="highlight-comment">// LazyBoxを開く（メモリ効率的）</span>
+  Future<<span class="highlight-class">LazyBox</span><<span class="highlight-class">LargeData</span>>> <span class="highlight-function">_getLazyBox</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">if</span> (!Hive.isBoxOpen(_lazyBoxName)) {
+      <span class="highlight-keyword">return</span> <span class="highlight-keyword">await</span> Hive.openLazyBox<<span class="highlight-class">LargeData</span>>(_lazyBoxName);
+    }
+    <span class="highlight-keyword">return</span> Hive.lazyBox<<span class="highlight-class">LargeData</span>>(_lazyBoxName);
+  }
+  
+  <span class="highlight-comment">// データの取得（必要時のみメモリにロード）</span>
+  Future<<span class="highlight-class">LargeData</span>?> <span class="highlight-function">getData</span>(String key) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getLazyBox();
+    <span class="highlight-keyword">return</span> <span class="highlight-keyword">await</span> box.get(key);  <span class="highlight-comment">// awaitが必要</span>
+  }
+  
+  <span class="highlight-comment">// データの保存</span>
+  Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">saveData</span>(String key, LargeData data) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getLazyBox();
+    <span class="highlight-keyword">await</span> box.put(key, data);
+  }
+  
+  <span class="highlight-comment">// キーのリストのみ取得（データ本体はロードしない）</span>
+  Future<<span class="highlight-class">List</span><<span class="highlight-class">String</span>>> <span class="highlight-function">getAllKeys</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getLazyBox();
+    <span class="highlight-keyword">return</span> box.keys.cast<<span class="highlight-class">String</span>>().toList();
+  }
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <span class="section-icon">⚠️</span>
+                7. エラーハンドリングとベストプラクティス
+            </h2>
+            
+            <div class="warning-box">
+                <strong>⚠️ 注意点:</strong> TypeAdapterのtypeIdは一度決めたら変更できません。また、フィールドの削除は避け、追加のみ行うようにしてください。
+            </div>
+
+            <h3>エラーハンドリングの実装</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">repositories/error_handling_repository.dart</span>
+                    <span class="code-lang">Dart</span>
+                </div>
+                <pre><span class="highlight-keyword">import</span> <span class="highlight-string">'package:fpdart/fpdart.dart'</span>;
+
+<span class="highlight-keyword">class</span> <span class="highlight-class">HiveError</span> {
+  <span class="highlight-keyword">final</span> String message;
+  <span class="highlight-keyword">final</span> Object? error;
+  <span class="highlight-keyword">final</span> StackTrace? stackTrace;
+  
+  HiveError(this.message, [this.error, this.stackTrace]);
+}
+
+<span class="highlight-keyword">class</span> <span class="highlight-class">SafeTodoRepository</span> {
+  <span class="highlight-comment">// エラーハンドリングを含むデータ取得</span>
+  Future<<span class="highlight-class">Either</span><<span class="highlight-class">HiveError</span>, <span class="highlight-class">List</span><<span class="highlight-class">Todo</span>>>> <span class="highlight-function">getAllTodos</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">try</span> {
+      <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getBox();
+      <span class="highlight-keyword">final</span> todos = box.values.toList();
+      <span class="highlight-keyword">return</span> right(todos);
+    } <span class="highlight-keyword">catch</span> (e, s) {
+      <span class="highlight-keyword">return</span> left(HiveError(
+        <span class="highlight-string">'Todoの取得に失敗しました'</span>,
+        e,
+        s,
+      ));
+    }
+  }
+  
+  <span class="highlight-comment">// トランザクション的な処理</span>
+  Future<<span class="highlight-class">Either</span><<span class="highlight-class">HiveError</span>, <span class="highlight-keyword">void</span>>> <span class="highlight-function">batchUpdate</span>(
+    <span class="highlight-class">List</span><<span class="highlight-class">Todo</span>> todos,
+  ) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">try</span> {
+      <span class="highlight-keyword">final</span> box = <span class="highlight-keyword">await</span> _getBox();
+      
+      <span class="highlight-comment">// バックアップを作成</span>
+      <span class="highlight-keyword">final</span> backup = <span class="highlight-class">Map</span><<span class="highlight-keyword">dynamic</span>, Todo>.from(box.toMap());
+      
+      <span class="highlight-keyword">try</span> {
+        <span class="highlight-comment">// バッチ処理</span>
+        <span class="highlight-keyword">await</span> box.clear();
+        <span class="highlight-keyword">for</span> (<span class="highlight-keyword">final</span> todo <span class="highlight-keyword">in</span> todos) {
+          <span class="highlight-keyword">await</span> box.put(todo.id, todo);
+        }
+        <span class="highlight-keyword">return</span> right(<span class="highlight-keyword">null</span>);
+      } <span class="highlight-keyword">catch</span> (e) {
+        <span class="highlight-comment">// エラー時はロールバック</span>
+        <span class="highlight-keyword">await</span> box.clear();
+        <span class="highlight-keyword">await</span> box.putAll(backup);
+        <span class="highlight-keyword">rethrow</span>;
+      }
+    } <span class="highlight-keyword">catch</span> (e, s) {
+      <span class="highlight-keyword">return</span> left(HiveError(
+        <span class="highlight-string">'バッチ更新に失敗しました'</span>,
+        e,
+        s,
+      ));
+    }
+  }
+}</pre>
+            </div>
+
+            <h3>マイグレーション戦略</h3>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">utils/migration_helper.dart</span>
+                    <span class="code-lang">Dart</span>
+                </div>
+                <pre><span class="highlight-keyword">class</span> <span class="highlight-class">MigrationHelper</span> {
+  <span class="highlight-keyword">static</span> <span class="highlight-keyword">const</span> String _versionKey = <span class="highlight-string">'db_version'</span>;
+  <span class="highlight-keyword">static</span> <span class="highlight-keyword">const</span> <span class="highlight-keyword">int</span> _currentVersion = 2;
+  
+  <span class="highlight-keyword">static</span> Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">migrate</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">final</span> metaBox = <span class="highlight-keyword">await</span> Hive.openBox(<span class="highlight-string">'metadata'</span>);
+    <span class="highlight-keyword">final</span> version = metaBox.get(_versionKey, defaultValue: 1) <span class="highlight-keyword">as</span> <span class="highlight-keyword">int</span>;
+    
+    <span class="highlight-keyword">if</span> (version < _currentVersion) {
+      <span class="highlight-keyword">await</span> _performMigration(version, _currentVersion);
+      <span class="highlight-keyword">await</span> metaBox.put(_versionKey, _currentVersion);
+    }
+  }
+  
+  <span class="highlight-keyword">static</span> Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">_performMigration</span>(<span class="highlight-keyword">int</span> from, <span class="highlight-keyword">int</span> to) <span class="highlight-keyword">async</span> {
+    <span class="highlight-keyword">if</span> (from == 1 && to >= 2) {
+      <span class="highlight-comment">// v1からv2へのマイグレーション</span>
+      <span class="highlight-keyword">await</span> _migrateV1ToV2();
+    }
+    <span class="highlight-comment">// 他のバージョンのマイグレーションを追加</span>
+  }
+  
+  <span class="highlight-keyword">static</span> Future<<span class="highlight-keyword">void</span>> <span class="highlight-function">_migrateV1ToV2</span>() <span class="highlight-keyword">async</span> {
+    <span class="highlight-comment">// 古いBoxから新しいBoxへデータを移行</span>
+    <span class="highlight-keyword">final</span> oldBox = <span class="highlight-keyword">await</span> Hive.openBox(<span class="highlight-string">'todos_v1'</span>);
+    <span class="highlight-keyword">final</span> newBox = <span class="highlight-keyword">await</span> Hive.openBox<<span class="highlight-class">Todo</span>>(<span class="highlight-string">'todos'</span>);
+    
+    <span class="highlight-keyword">for</span> (<span class="highlight-keyword">final</span> entry <span class="highlight-keyword">in</span> oldBox.toMap().entries) {
+      <span class="highlight-comment">// データ変換ロジック</span>
+      <span class="highlight-keyword">final</span> oldData = entry.value <span class="highlight-keyword">as</span> <span class="highlight-class">Map</span>;
+      <span class="highlight-keyword">final</span> newTodo = Todo(
+        id: oldData[<span class="highlight-string">'id'</span>] ?? DateTime.now().toString(),
+        title: oldData[<span class="highlight-string">'title'</span>] ?? <span class="highlight-string">''</span>,
+        description: oldData[<span class="highlight-string">'desc'</span>] ?? <span class="highlight-string">''</span>,  <span class="highlight-comment">// フィールド名の変更</span>
+        isCompleted: oldData[<span class="highlight-string">'done'</span>] ?? <span class="highlight-keyword">false</span>,
+        createdAt: DateTime.parse(oldData[<span class="highlight-string">'created'</span>] ?? DateTime.now().toString()),
+        completedAt: <span class="highlight-keyword">null</span>,  <span class="highlight-comment">// 新しいフィールド</span>
+      );
+      <span class="highlight-keyword">await</span> newBox.put(newTodo.id, newTodo);
+    }
+    
+    <span class="highlight-comment">// 古いBoxを削除</span>
+    <span class="highlight-keyword">await</span> oldBox.deleteFromDisk();
+  }
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>
+                <span class="section-icon">📚</span>
+                参考リソース
+            </h2>
+            
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>公式ドキュメント</h3>
+                    <p><a href="https://docs.hivedb.dev/" style="color: #667eea;">Hive Documentation</a></p>
+                    <p><a href="https://pub.dev/packages/hive" style="color: #667eea;">pub.dev - hive</a></p>
+                </div>
+                <div class="feature-item">
+                    <h3>チュートリアル</h3>
+                    <p><a href="https://resocoder.com/category/tutorials/flutter/hive-tutorial/" style="color: #667eea;">ResoCoder Tutorial</a></p>
+                    <p><a href="https://medium.com/flutter-community/handling-local-data-persistence-in-flutter-with-hive-54a5fdd963d1" style="color: #667eea;">Flutter Community</a></p>
+                </div>
+                <div class="feature-item">
+                    <h3>ベストプラクティス</h3>
+                    <p><a href="https://docs.flutter.dev/cookbook/persistence" style="color: #667eea;">Flutter公式ガイド</a></p>
+                    <p><a href="https://github.com/hivedb/hive/tree/master/hive_flutter/example" style="color: #667eea;">サンプルコード</a></p>
+                </div>
+            </div>
+            
+            <div class="info-box" style="margin-top: 30px;">
+                <strong>💡 まとめ:</strong> HiveはFlutterアプリケーションにおいて、軽量で高速なローカルデータベースソリューションです。Riverpodと組み合わせることで、SSOT原則に従った堅牢な状態管理が実現できます。適切なエラーハンドリングとマイグレーション戦略を実装することで、長期的にメンテナンス可能なアプリケーションを構築できます。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(event, tabId) {
+            // すべてのタブとコンテンツを非アクティブにする
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // クリックされたタブと対応するコンテンツをアクティブにする
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
