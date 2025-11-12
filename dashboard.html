@@ -93,77 +93,7 @@
             margin-bottom: 30px;
         }
 
-        .overview-card {
-            background: var(--bg-primary);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-md);
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .overview-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .overview-icon.primary {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .overview-icon.success {
-            background: var(--secondary-color);
-            color: white;
-        }
-
-        .overview-icon.warning {
-            background: var(--warning-color);
-            color: white;
-        }
-
-        .overview-icon.info {
-            background: var(--info-color);
-            color: white;
-        }
-
-        .overview-content {
-            flex: 1;
-        }
-
-        .overview-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--gray-500);
-            margin-bottom: 4px;
-        }
-
-        .overview-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--gray-800);
-        }
-
-        .overview-change {
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 4px;
-        }
-
-        .overview-change.positive {
-            color: var(--secondary-color);
-        }
-
-        .overview-change.negative {
-            color: var(--danger-color);
-        }
+        /* Overview cards now use .stat-card, .card-icon, .card-content from common.css */
 
         /* メインコンテンツグリッド */
         .content-grid {
@@ -173,17 +103,7 @@
             flex: 1;
         }
 
-        /* カード拡張 */
-        .card-action {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .card-action:hover {
-            color: var(--primary-hover);
-        }
+        /* Card actions now use .card-action from common.css */
 
         /* 請求書リスト */
         .invoice-list {
