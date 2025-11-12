@@ -315,38 +315,8 @@
             }
         }
 
-        @media (max-width: 1200px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .title-text {
-                font-size: 28px;
-            }
-
-            .card {
-                padding: 24px;
-            }
-        }
-
+        /* Page-specific responsive styles - レスポンシブ共通スタイルはcommon.cssに移動 */
         @media (max-width: 992px) {
-            .header-toggle {
-                display: flex;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 16px;
-                margin-bottom: 20px;
-            }
-
-            .header-actions {
-                width: 100%;
-                justify-content: flex-end;
-            }
-
             .form-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 12px;
@@ -354,23 +324,6 @@
         }
 
         @media (max-width: 768px) {
-            .title-text {
-                font-size: 24px;
-            }
-
-            .header-actions {
-                flex-direction: column;
-                width: 100%;
-                gap: 8px;
-            }
-
-            .header-button {
-                width: 100%;
-                justify-content: center;
-                height: 40px;
-                font-size: 14px;
-            }
-
             .form-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
@@ -378,18 +331,6 @@
         }
 
         @media (max-width: 480px) {
-            .title-text {
-                font-size: 20px;
-            }
-
-            .header {
-                margin-bottom: 16px;
-            }
-
-            .content-grid {
-                gap: 16px;
-            }
-
             .form-section {
                 margin-bottom: 20px;
             }
