@@ -166,29 +166,7 @@
             gap: 8px;
         }
 
-        .status-tab {
-            padding: 8px 16px;
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #6b7280;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .status-tab.active {
-            background: #4F46E5;
-            border-color: #4F46E5;
-            color: #ffffff;
-        }
-
-        .status-tab:hover:not(.active) {
-            background: #f9fafb;
-            border-color: #9ca3af;
-            color: #374151;
-        }
+        /* Status tabs now use .filter-tab from common.css */
 
         /* 請求書一覧 */
         .invoices-container {
@@ -215,37 +193,9 @@
             overflow-x: auto;
         }
 
+        /* Table styles now use .data-table from common.css */
         .invoices-table {
-            width: 100%;
-            border-collapse: collapse;
             min-width: 800px;
-        }
-
-        .invoices-table th {
-            background: #f9fafb;
-            padding: 16px 24px;
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #6b7280;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .invoices-table th:last-child {
-            text-align: center;
-        }
-
-        .invoices-table td {
-            padding: 20px 24px;
-            border-bottom: 1px solid #f3f4f6;
-            font-size: 14px;
-            color: #1f2937;
-        }
-
-        .invoices-table tr:hover {
-            background: #f9fafb;
         }
 
         .invoice-number {
@@ -262,34 +212,7 @@
             text-align: right;
         }
 
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .status-draft {
-            background: #f3f4f6;
-            color: #6b7280;
-        }
-
-        .status-sent {
-            background: #dbeafe;
-            color: #1d4ed8;
-        }
-
-        .status-paid {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-overdue {
-            background: #fee2e2;
-            color: #dc2626;
-        }
+        /* Status badge styles now use .status-badge from common.css */
 
         .actions-cell {
             text-align: center;
@@ -937,11 +860,11 @@
                     <input type="text" class="search-input" placeholder="請求書番号、クライアント名で検索" id="searchInput">
                 </div>
                 <div class="status-filter">
-                    <button class="status-tab active" data-status="all">すべて</button>
-                    <button class="status-tab" data-status="draft">下書き</button>
-                    <button class="status-tab" data-status="sent">発行済み</button>
-                    <button class="status-tab" data-status="paid">支払済み</button>
-                    <button class="status-tab" data-status="overdue">期限切れ</button>
+                    <button class="filter-tab active" data-status="all">すべて</button>
+                    <button class="filter-tab" data-status="draft">下書き</button>
+                    <button class="filter-tab" data-status="sent">発行済み</button>
+                    <button class="filter-tab" data-status="paid">支払済み</button>
+                    <button class="filter-tab" data-status="overdue">期限切れ</button>
                 </div>
             </div>
         </div>
@@ -952,7 +875,7 @@
                 <h2 class="invoices-title">請求書一覧</h2>
             </div>
             <div class="invoices-list">
-                <table class="invoices-table">
+                <table class="invoices-table data-table">
                     <thead>
                         <tr>
                             <th>請求書番号</th>
@@ -1218,7 +1141,7 @@
 
         // ステータスフィルター
         function initStatusFilter() {
-            const statusTabs = document.querySelectorAll('.status-tab');
+            const statusTabs = document.querySelectorAll('.filter-tab');
             const tableRows = document.querySelectorAll('tbody tr');
 
             statusTabs.forEach(tab => {
