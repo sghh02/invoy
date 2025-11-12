@@ -5,228 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InFree - ダッシュボード</title>
+    <link rel="stylesheet" href="common.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            background: #f5f5f5;
-            display: flex;
-        }
-
-        /* サイドバー */
-        .sidebar {
-            width: 280px;
-            height: 100vh;
-            background: #ffffff;
-            border-right: 1px solid #e5e7eb;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar-header {
-            padding: 20px 16px 20px 24px;
-            border-bottom: 1px solid #e5e7eb;
-            position: relative;
-        }
-
-        .sidebar-toggle {
-            position: absolute;
-            top: 20px;
-            right: 16px;
-            width: 32px;
-            height: 32px;
-            background: #f3f4f6;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .sidebar-toggle:hover {
-            background: #e5e7eb;
-            border-color: #9ca3af;
-        }
-
-        .sidebar-toggle-icon {
-            width: 18px;
-            height: 18px;
-            color: #6b7280;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .logo {
-            width: 48px;
-            height: 48px;
-            background: #4F46E5;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-icon {
-            width: 28px;
-            height: 28px;
-            color: white;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-            letter-spacing: -0.5px;
-        }
-
-        /* ナビゲーション */
-        .nav-menu {
-            flex: 1;
-            padding: 20px 12px;
-            overflow-y: auto;
-        }
-
-        .nav-section {
-            margin-bottom: 32px;
-        }
-
-        .nav-section-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 0 12px;
-            margin-bottom: 8px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            margin-bottom: 4px;
-            background: transparent;
-            border: none;
-            border-radius: 8px;
-            color: #6b7280;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .nav-item.active {
-            background: #4F46E5;
-            color: #ffffff;
-        }
-
-        .nav-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-
-        .nav-text {
-            font-size: 15px;
-            font-weight: 500;
-        }
-
-        .nav-badge {
-            margin-left: auto;
-            padding: 2px 8px;
-            background: #e5e7eb;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #6b7280;
-        }
-
-        .nav-item.active .nav-badge {
-            background: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-        }
-
-        /* サイドバーフッター */
-        .sidebar-footer {
-            padding: 20px;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: #f9fafb;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .user-profile:hover {
-            background: #f3f4f6;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: #4F46E5;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
-        }
-
-        .user-info {
-            flex: 1;
-        }
-
-        .user-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 2px;
-        }
-
-        .user-email {
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        /* メインコンテンツ */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
+        /* ページ固有のスタイル */
 
         /* ヘッダー */
         .header {
@@ -245,9 +26,9 @@
         .header-toggle {
             width: 40px;
             height: 40px;
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
             display: none;
             align-items: center;
             justify-content: center;
@@ -256,20 +37,20 @@
         }
 
         .header-toggle:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
+            background: var(--gray-50);
+            border-color: var(--gray-400);
         }
 
         .header-toggle-icon {
             width: 20px;
             height: 20px;
-            color: #374151;
+            color: var(--gray-700);
         }
 
         .title-text {
             font-size: 32px;
             font-weight: 700;
-            color: #1f2937;
+            color: var(--gray-800);
             letter-spacing: -0.5px;
         }
 
@@ -281,9 +62,9 @@
         .header-button {
             height: 44px;
             padding: 0 24px;
-            background: #4F46E5;
+            background: var(--primary-color);
             border: none;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -296,7 +77,7 @@
         }
 
         .header-button:hover {
-            background: #4338CA;
+            background: var(--primary-hover);
         }
 
         .button-icon {
@@ -312,77 +93,7 @@
             margin-bottom: 30px;
         }
 
-        .overview-card {
-            background: #ffffff;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .overview-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .overview-icon.primary {
-            background: #4F46E5;
-            color: white;
-        }
-
-        .overview-icon.success {
-            background: #10B981;
-            color: white;
-        }
-
-        .overview-icon.warning {
-            background: #F59E0B;
-            color: white;
-        }
-
-        .overview-icon.info {
-            background: #3B82F6;
-            color: white;
-        }
-
-        .overview-content {
-            flex: 1;
-        }
-
-        .overview-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #6b7280;
-            margin-bottom: 4px;
-        }
-
-        .overview-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1f2937;
-        }
-
-        .overview-change {
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 4px;
-        }
-
-        .overview-change.positive {
-            color: #10B981;
-        }
-
-        .overview-change.negative {
-            color: #EF4444;
-        }
+        /* Overview cards now use .stat-card, .card-icon, .card-content from common.css */
 
         /* メインコンテンツグリッド */
         .content-grid {
@@ -392,50 +103,7 @@
             flex: 1;
         }
 
-        /* カード */
-        .card {
-            background: #ffffff;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            height: fit-content;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1f2937;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-icon {
-            width: 20px;
-            height: 20px;
-            color: #4F46E5;
-        }
-
-        .card-action {
-            color: #4F46E5;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .card-action:hover {
-            color: #4338CA;
-        }
+        /* Card actions now use .card-action from common.css */
 
         /* 請求書リスト */
         .invoice-list {
@@ -449,9 +117,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px;
-            background: #f9fafb;
-            border-radius: 6px;
-            border: 1px solid #f3f4f6;
+            background: var(--gray-50);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-100);
         }
 
         .invoice-info {
@@ -461,19 +129,19 @@
         .invoice-number {
             font-size: 14px;
             font-weight: 600;
-            color: #1f2937;
+            color: var(--gray-800);
             margin-bottom: 4px;
         }
 
         .invoice-client {
             font-size: 13px;
-            color: #6b7280;
+            color: var(--gray-500);
         }
 
         .invoice-amount {
             font-size: 16px;
             font-weight: 600;
-            color: #1f2937;
+            color: var(--gray-800);
             margin-bottom: 4px;
         }
 
@@ -502,14 +170,15 @@
         /* グラフプレースホルダー */
         .chart-placeholder {
             height: 300px;
-            background: #f9fafb;
-            border: 2px dashed #d1d5db;
-            border-radius: 6px;
+            background: var(--gray-50);
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #6b7280;
+            color: var(--gray-500);
             font-size: 14px;
+            text-align: center;
         }
 
         /* 空状態 */
@@ -521,29 +190,29 @@
         .empty-icon {
             width: 64px;
             height: 64px;
-            color: #d1d5db;
+            color: var(--gray-300);
             margin: 0 auto 16px;
         }
 
         .empty-title {
             font-size: 16px;
             font-weight: 600;
-            color: #374151;
+            color: var(--gray-700);
             margin-bottom: 8px;
         }
 
         .empty-description {
             font-size: 14px;
-            color: #6b7280;
+            color: var(--gray-500);
             margin-bottom: 20px;
         }
 
         .empty-action {
             padding: 12px 24px;
-            background: #4F46E5;
+            background: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
@@ -552,412 +221,11 @@
         }
 
         .empty-action:hover {
-            background: #4338CA;
+            background: var(--primary-hover);
         }
 
         /* レスポンシブ */
-        @media (min-width: 1600px) {
-            .main-content {
-                padding: 32px;
-            }
-
-            .content-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 32px;
-                width: 100%;
-            }
-
-            .card {
-                padding: 40px;
-            }
-        }
-
-        /* 中画面デスクトップ・ラップトップ */
-        @media (max-width: 1400px) {
-            .content-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-                width: 100%;
-            }
-        }
-
-        /* 小画面ラップトップ・大画面タブレット */
-        @media (max-width: 1200px) {
-            .sidebar {
-                width: 240px;
-            }
-
-            .main-content {
-                margin-left: 240px;
-                padding: 16px;
-            }
-
-            .content-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .title-text {
-                font-size: 28px;
-            }
-
-            .card {
-                padding: 24px;
-            }
-        }
-
-        /* タブレット */
-        @media (max-width: 992px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                width: 280px;
-            }
-
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 16px;
-            }
-
-            /* サイドバー非表示時はヘッダーにトグルボタン表示 */
-            .header-toggle {
-                display: flex;
-            }
-
-            /* サイドバー内のトグルボタンは常に表示 */
-            .sidebar-toggle {
-                display: flex;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 16px;
-                margin-bottom: 20px;
-            }
-
-            .header-actions {
-                width: 100%;
-                justify-content: flex-end;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
-            }
-
-            .items-header {
-                grid-template-columns: 2fr 80px 80px 80px 40px;
-                gap: 8px;
-            }
-
-            .item-row {
-                grid-template-columns: 2fr 80px 80px 80px 40px;
-                gap: 8px;
-            }
-
-            .item-input {
-                font-size: 13px;
-                height: 36px;
-                padding: 0 8px;
-            }
-
-            .invoice-preview {
-                padding: 24px;
-            }
-
-            .invoice-table th,
-            .invoice-table td {
-                padding: 8px 6px;
-                font-size: 13px;
-            }
-        }
-
-        /* 大画面スマートフォン */
-        @media (max-width: 768px) {
-            .main-content {
-                padding: 12px;
-            }
-
-            .title-text {
-                font-size: 24px;
-            }
-
-            .header-actions {
-                flex-direction: column;
-                width: 100%;
-                gap: 8px;
-            }
-
-            .header-button {
-                width: 100%;
-                justify-content: center;
-                height: 40px;
-                font-size: 14px;
-            }
-
-            /* ヘッダーのトグルボタンを表示 */
-            .header-toggle {
-                display: flex;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .card-title {
-                font-size: 18px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .form-input,
-            .form-textarea {
-                height: 40px;
-                font-size: 14px;
-            }
-
-            .form-textarea {
-                min-height: 60px;
-            }
-
-            /* 品目テーブルをスタック表示に */
-            .items-header {
-                display: none;
-            }
-
-            .item-row {
-                display: block;
-                background: #ffffff;
-                border: 1px solid #e5e7eb;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 12px;
-                position: relative;
-            }
-
-            .item-row .item-input {
-                width: 100%;
-                margin-bottom: 12px;
-                height: 36px;
-                position: relative;
-            }
-
-            .item-row .item-input:nth-child(1)::before {
-                content: "品目名";
-                position: absolute;
-                top: -20px;
-                left: 0;
-                font-size: 12px;
-                color: #6b7280;
-                font-weight: 500;
-            }
-
-            .item-row .item-input:nth-child(2)::before {
-                content: "数量";
-                position: absolute;
-                top: -20px;
-                left: 0;
-                font-size: 12px;
-                color: #6b7280;
-                font-weight: 500;
-            }
-
-            .item-row .item-input:nth-child(3)::before {
-                content: "単価";
-                position: absolute;
-                top: -20px;
-                left: 0;
-                font-size: 12px;
-                color: #6b7280;
-                font-weight: 500;
-            }
-
-            .item-row .item-input:nth-child(4)::before {
-                content: "金額";
-                position: absolute;
-                top: -20px;
-                left: 0;
-                font-size: 12px;
-                color: #6b7280;
-                font-weight: 500;
-            }
-
-            .remove-item-btn {
-                width: 100%;
-                height: 36px;
-                margin-top: 4px;
-            }
-
-            /* プレビューを簡素化 */
-            .invoice-preview {
-                padding: 16px;
-                font-size: 14px;
-            }
-
-            .invoice-title {
-                font-size: 24px;
-            }
-
-            .invoice-header {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .company-info {
-                text-align: left;
-            }
-
-            .invoice-table {
-                font-size: 12px;
-            }
-
-            .invoice-table th,
-            .invoice-table td {
-                padding: 6px 4px;
-            }
-
-            .client-section {
-                padding: 12px;
-            }
-
-            .totals-section {
-                padding: 16px;
-            }
-        }
-
-        /* 小画面スマートフォン */
-        @media (max-width: 480px) {
-            .main-content {
-                padding: 8px;
-            }
-
-            .sidebar {
-                width: 100%;
-            }
-
-            .header {
-                margin-bottom: 16px;
-            }
-
-            .title-text {
-                font-size: 20px;
-            }
-
-            .card {
-                padding: 16px;
-                border-radius: 6px;
-            }
-
-            .content-grid {
-                gap: 16px;
-            }
-
-            .form-section {
-                margin-bottom: 20px;
-            }
-
-            .section-title {
-                font-size: 14px;
-                margin-bottom: 12px;
-            }
-
-            .form-input,
-            .form-textarea {
-                height: 36px;
-                font-size: 14px;
-                padding: 0 8px;
-            }
-
-            .form-textarea {
-                min-height: 60px;
-                padding: 8px;
-            }
-
-            .items-container {
-                padding: 12px;
-            }
-
-            .item-row {
-                padding: 8px;
-            }
-
-            .add-item-btn {
-                height: 36px;
-                font-size: 13px;
-            }
-
-            .totals-section {
-                padding: 12px;
-            }
-
-            .total-row:last-child .total-value {
-                font-size: 20px;
-            }
-
-            /* プレビューをさらに簡素化 */
-            .invoice-preview {
-                padding: 12px;
-                font-size: 13px;
-            }
-
-            .invoice-title {
-                font-size: 20px;
-            }
-
-            .company-name {
-                font-size: 16px;
-            }
-
-            .client-name {
-                font-size: 16px;
-            }
-
-            .invoice-table {
-                font-size: 11px;
-            }
-
-            .invoice-total-row.grand-total {
-                font-size: 16px;
-            }
-
-            .invoice-notes,
-            .client-section {
-                padding: 8px;
-            }
-        }
-
-        /* 極小画面 */
-        @media (max-width: 320px) {
-            .main-content {
-                padding: 4px;
-            }
-
-            .title-text {
-                font-size: 18px;
-            }
-
-            .card {
-                padding: 12px;
-            }
-
-            .invoice-preview {
-                padding: 8px;
-            }
-
-            .invoice-table th,
-            .invoice-table td {
-                padding: 4px 2px;
-                font-size: 10px;
-            }
-        }
+        /* Page-specific responsive styles - レスポンシブ共通スタイルはcommon.cssに移動 */
     </style>
 </head>
 
@@ -966,7 +234,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <a href="#" class="logo-container">
-                <div class="logo">
+                <div class="logo-wrapper">
                     <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.11 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z" />
@@ -1208,31 +476,13 @@
         </div>
     </main>
 
+    <script src="utils.js"></script>
     <script>
-        // サイドバートグル
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('mobile-open');
-        }
-
-        // サイドバー外クリックで閉じる
-        document.addEventListener('click', function (event) {
-            const sidebar = document.getElementById('sidebar');
-            const toggleButtons = document.querySelectorAll('.header-toggle, .sidebar-toggle');
-
-            // クリックされた要素がサイドバーまたはトグルボタンでない場合
-            if (!sidebar.contains(event.target) &&
-                !Array.from(toggleButtons).some(btn => btn.contains(event.target))) {
-                sidebar.classList.remove('mobile-open');
-            }
-        });
-
-        // ウィンドウリサイズイベント
-        window.addEventListener('resize', function () {
-            const sidebar = document.getElementById('sidebar');
-            if (window.innerWidth > 992) {
-                sidebar.classList.remove('mobile-open');
-            }
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function () {
+            // サイドバーの初期化（utils.jsの関数を使用）
+            initSidebarCloseOnOutsideClick();
+            initSidebarResize();
         });
     </script>
 </body>

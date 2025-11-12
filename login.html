@@ -5,17 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InFree - ログイン</title>
+    <link rel="stylesheet" href="common.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
-
         body {
-            min-height: 100vh;
-            background: #f5f5f5;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -30,9 +22,9 @@
 
         /* カード */
         .login-card {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
             padding: 40px;
         }
 
@@ -48,8 +40,8 @@
             justify-content: center;
             width: 60px;
             height: 60px;
-            background: #4F46E5;
-            border-radius: 12px;
+            background: var(--primary-color);
+            border-radius: var(--radius-lg);
             margin-bottom: 16px;
         }
 
@@ -62,77 +54,13 @@
         .app-title {
             font-size: 24px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: var(--text-primary);
             margin-bottom: 4px;
         }
 
         .app-subtitle {
             font-size: 14px;
-            color: #6b7280;
-        }
-
-        /* フォーム */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 6px;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .form-input {
-            width: 100%;
-            height: 44px;
-            padding: 0 40px 0 12px;
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            color: #1a1a1a;
-            font-size: 15px;
-            transition: border-color 0.2s ease;
-        }
-
-        .form-input::placeholder {
-            color: #9ca3af;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #4F46E5;
-        }
-
-        .input-icon {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            color: #9ca3af;
-        }
-
-        .password-toggle {
-            background: none;
-            border: none;
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            padding: 4px;
-            color: #9ca3af;
-        }
-
-        .password-toggle:hover {
-            color: #6b7280;
+            color: var(--text-secondary);
         }
 
         /* オプション */
@@ -143,79 +71,14 @@
             margin-bottom: 24px;
         }
 
-        .checkbox-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .checkbox-input {
-            width: 16px;
-            height: 16px;
-            accent-color: #4F46E5;
-            cursor: pointer;
-        }
-
-        .checkbox-label {
-            font-size: 14px;
-            color: #6b7280;
-            cursor: pointer;
-        }
-
         .forgot-link {
             font-size: 14px;
-            color: #4F46E5;
+            color: var(--primary-color);
             text-decoration: none;
         }
 
         .forgot-link:hover {
             text-decoration: underline;
-        }
-
-        /* ボタン */
-        .login-button {
-            width: 100%;
-            height: 44px;
-            background: #4F46E5;
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .login-button:hover {
-            background: #4338CA;
-        }
-
-        .login-button:active {
-            background: #3730A3;
-        }
-
-        .login-button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-        }
-
-        /* 分割線 */
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 24px 0;
-            gap: 16px;
-        }
-
-        .divider-line {
-            flex: 1;
-            height: 1px;
-            background: #e5e7eb;
-        }
-
-        .divider-text {
-            font-size: 14px;
-            color: #9ca3af;
         }
 
         /* ソーシャルボタン */
@@ -227,9 +90,9 @@
         .social-button {
             flex: 1;
             height: 44px;
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -238,8 +101,8 @@
         }
 
         .social-button:hover {
-            background: #f9fafb;
-            border-color: #d1d5db;
+            background: var(--gray-50);
+            border-color: var(--gray-300);
         }
 
         .social-icon {
@@ -252,16 +115,16 @@
             text-align: center;
             margin-top: 24px;
             padding-top: 24px;
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid var(--border-color);
         }
 
         .signup-text {
             font-size: 14px;
-            color: #6b7280;
+            color: var(--text-secondary);
         }
 
         .signup-link {
-            color: #4F46E5;
+            color: var(--primary-color);
             text-decoration: none;
             font-weight: 500;
         }
@@ -351,7 +214,7 @@
                     <a href="password_reset.html" class="forgot-link">パスワードを忘れた方</a>
                 </div>
 
-                <button type="submit" class="login-button">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
                     ログイン
                 </button>
             </form>
@@ -407,20 +270,10 @@
         </div>
     </div>
 
+    <script src="utils.js"></script>
     <script>
         // パスワード表示切り替え
-        const togglePassword = document.getElementById('toggle-password');
-        const passwordInput = document.getElementById('password');
-
-        togglePassword.addEventListener('click', function () {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-
-            // アイコンの切り替え
-            this.innerHTML = type === 'password' ?
-                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>' :
-                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
-        });
+        setupPasswordToggle('toggle-password', 'password');
 
         // フォーム送信
         const loginForm = document.getElementById('login-form');
@@ -428,7 +281,7 @@
             e.preventDefault();
 
             // ローディング状態を表示
-            const button = this.querySelector('.login-button');
+            const button = this.querySelector('.btn');
             const originalText = button.textContent;
             button.textContent = 'ログイン中...';
             button.disabled = true;
