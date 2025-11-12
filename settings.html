@@ -889,6 +889,10 @@
 
         // 初期化
         document.addEventListener('DOMContentLoaded', function () {
+            // サイドバーの初期化（utils.jsの関数を使用）
+            initSidebarCloseOnOutsideClick();
+            initSidebarResize();
+
             // ドラッグ&ドロップの初期化（utils.jsを使用）
             initDragAndDrop('logo-upload-area', 'logo-file', {
                 onDrop: handleLogoChange

@@ -1278,6 +1278,10 @@
 
         // 初期化
         document.addEventListener('DOMContentLoaded', function () {
+            // サイドバーの初期化（utils.jsの関数を使用）
+            initSidebarCloseOnOutsideClick();
+            initSidebarResize();
+
             initStatusFilter();
             initSearch();
         });

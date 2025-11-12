@@ -984,6 +984,10 @@
 
         // 初期化
         document.addEventListener('DOMContentLoaded', function () {
+            // サイドバーの初期化（utils.jsの関数を使用）
+            initSidebarCloseOnOutsideClick();
+            initSidebarResize();
+
             // 最初のFAQを開いておく
             const firstQuestion = document.querySelector('.faq-question');
             if (firstQuestion) {
