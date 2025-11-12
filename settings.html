@@ -5,227 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InFree - 設定</title>
+    <link rel="stylesheet" href="common.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
+        /* ページ固有のスタイル */
 
-        body {
-            min-height: 100vh;
-            background: #f5f5f5;
-            display: flex;
-        }
-
-        /* サイドバー */
-        .sidebar {
-            width: 280px;
-            height: 100vh;
-            background: #ffffff;
-            border-right: 1px solid #e5e7eb;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar-header {
-            padding: 20px 16px 20px 24px;
-            border-bottom: 1px solid #e5e7eb;
-            position: relative;
-        }
-
-        .sidebar-toggle {
-            position: absolute;
-            top: 20px;
-            right: 16px;
-            width: 32px;
-            height: 32px;
-            background: #f3f4f6;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .sidebar-toggle:hover {
-            background: #e5e7eb;
-            border-color: #9ca3af;
-        }
-
-        .sidebar-toggle-icon {
-            width: 18px;
-            height: 18px;
-            color: #6b7280;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .logo {
-            width: 48px;
-            height: 48px;
-            background: #4F46E5;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-icon {
-            width: 28px;
-            height: 28px;
-            color: white;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-            letter-spacing: -0.5px;
-        }
-
-        /* ナビゲーション */
-        .nav-menu {
+        /* コンテンツグリッド */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
             flex: 1;
-            padding: 20px 12px;
-            overflow-y: auto;
-        }
-
-        .nav-section {
-            margin-bottom: 32px;
-        }
-
-        .nav-section-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 0 12px;
-            margin-bottom: 8px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            margin-bottom: 4px;
-            background: transparent;
-            border: none;
-            border-radius: 8px;
-            color: #6b7280;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .nav-item.active {
-            background: #4F46E5;
-            color: #ffffff;
-        }
-
-        .nav-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-
-        .nav-text {
-            font-size: 15px;
-            font-weight: 500;
-        }
-
-        .nav-badge {
-            margin-left: auto;
-            padding: 2px 8px;
-            background: #e5e7eb;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #6b7280;
-        }
-
-        .nav-item.active .nav-badge {
-            background: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-        }
-
-        /* サイドバーフッター */
-        .sidebar-footer {
-            padding: 20px;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: #f9fafb;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .user-profile:hover {
-            background: #f3f4f6;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: #4F46E5;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
-        }
-
-        .user-info {
-            flex: 1;
-        }
-
-        .user-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 2px;
-        }
-
-        .user-email {
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        /* メインコンテンツ */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
+            width: 100%;
         }
 
         /* ヘッダー */
@@ -245,9 +35,9 @@
         .header-toggle {
             width: 40px;
             height: 40px;
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
             display: none;
             align-items: center;
             justify-content: center;
@@ -256,20 +46,20 @@
         }
 
         .header-toggle:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
+            background: var(--gray-50);
+            border-color: var(--gray-400);
         }
 
         .header-toggle-icon {
             width: 20px;
             height: 20px;
-            color: #374151;
+            color: var(--gray-700);
         }
 
         .title-text {
             font-size: 32px;
             font-weight: 700;
-            color: #1f2937;
+            color: var(--gray-800);
             letter-spacing: -0.5px;
         }
 
@@ -281,32 +71,32 @@
         .header-button {
             height: 44px;
             padding: 0 24px;
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
-            color: #374151;
+            color: var(--gray-700);
             font-size: 15px;
             font-weight: 500;
         }
 
         .header-button:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
+            background: var(--gray-50);
+            border-color: var(--gray-400);
         }
 
         .header-button.primary {
-            background: #4F46E5;
+            background: var(--primary-color);
             border: none;
             color: #ffffff;
         }
 
         .header-button.primary:hover {
-            background: #4338CA;
+            background: var(--primary-hover);
         }
 
         .button-icon {
@@ -314,55 +104,23 @@
             height: 20px;
         }
 
-        /* コンテンツグリッド */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-            flex: 1;
-            width: 100%;
-        }
-
-        /* カード */
+        /* カード拡張 */
         .card {
-            background: #ffffff;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             padding: 32px;
-            height: fit-content;
-            width: 100%;
-            min-width: 0;
-            box-sizing: border-box;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e5e7eb;
         }
 
         .card-icon {
             width: 40px;
             height: 40px;
-            background: #4F46E5;
-            border-radius: 8px;
+            background: var(--primary-color);
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
         }
 
-        .card-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        /* フォーム */
+        /* フォームセクション */
         .form-section {
             margin-bottom: 28px;
         }
@@ -370,7 +128,7 @@
         .section-title {
             font-size: 16px;
             font-weight: 600;
-            color: #1f2937;
+            color: var(--gray-800);
             margin-bottom: 16px;
             display: flex;
             align-items: center;
@@ -380,7 +138,7 @@
         .section-icon {
             width: 18px;
             height: 18px;
-            color: #4F46E5;
+            color: var(--primary-color);
         }
 
         .form-grid {
@@ -389,99 +147,44 @@
             gap: 16px;
         }
 
-        .form-group {
-            margin-bottom: 16px;
-        }
-
         .form-group.full-width {
             grid-column: 1 / -1;
         }
 
-        .form-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 6px;
-        }
-
-        .form-input {
-            width: 100%;
-            height: 44px;
-            padding: 0 12px;
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            color: #1f2937;
-            font-size: 15px;
-            transition: border-color 0.2s ease;
-        }
-
-        .form-input::placeholder {
-            color: #9ca3af;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #4F46E5;
-        }
-
-        .form-textarea {
-            width: 100%;
-            min-height: 80px;
-            padding: 12px;
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            color: #1f2937;
-            font-size: 15px;
-            resize: vertical;
-            transition: border-color 0.2s ease;
-        }
-
-        .form-textarea:focus {
-            outline: none;
-            border-color: #4F46E5;
-        }
-
         /* ファイルアップロード */
         .file-upload-area {
-            border: 2px dashed #d1d5db;
-            border-radius: 8px;
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius-md);
             padding: 40px 20px;
             text-align: center;
-            background: #f9fafb;
-            transition: border-color 0.2s ease;
+            background: var(--gray-50);
+            transition: all 0.2s ease;
             cursor: pointer;
         }
 
-        .file-upload-area:hover {
-            border-color: #4F46E5;
-            background: #f8faff;
-        }
-
-        .file-upload-area.dragover {
-            border-color: #4F46E5;
+        .file-upload-area:hover,
+        .file-upload-area.drag-over {
+            border-color: var(--primary-color);
             background: #f8faff;
         }
 
         .file-upload-icon {
             width: 48px;
             height: 48px;
-            color: #9ca3af;
+            color: var(--gray-400);
             margin: 0 auto 16px;
         }
 
         .file-upload-text {
             font-size: 16px;
             font-weight: 500;
-            color: #1f2937;
+            color: var(--gray-800);
             margin-bottom: 8px;
         }
 
         .file-upload-subtext {
             font-size: 14px;
-            color: #6b7280;
+            color: var(--gray-500);
         }
 
         .file-input-hidden {
@@ -491,16 +194,16 @@
         .current-logo {
             max-width: 200px;
             max-height: 100px;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
             margin-bottom: 16px;
         }
 
         /* 設定項目グループ */
         .settings-group {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            background: var(--gray-50);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
             padding: 24px;
             margin-bottom: 24px;
         }
@@ -508,7 +211,7 @@
         .settings-group-title {
             font-size: 18px;
             font-weight: 600;
-            color: #1f2937;
+            color: var(--gray-800);
             margin-bottom: 16px;
             display: flex;
             align-items: center;
@@ -518,7 +221,7 @@
         .settings-group-icon {
             width: 20px;
             height: 20px;
-            color: #4F46E5;
+            color: var(--primary-color);
         }
 
         /* 選択肢リスト */
@@ -531,25 +234,22 @@
             display: flex;
             align-items: center;
             padding: 16px;
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .option-item:hover {
-            border-color: #4F46E5;
-            background: #f8faff;
-        }
-
+        .option-item:hover,
         .option-item.selected {
-            border-color: #4F46E5;
+            border-color: var(--primary-color);
             background: #f8faff;
         }
 
         .option-radio {
             margin-right: 12px;
+            accent-color: var(--primary-color);
         }
 
         .option-content {
@@ -559,13 +259,13 @@
         .option-title {
             font-size: 15px;
             font-weight: 500;
-            color: #1f2937;
+            color: var(--gray-800);
             margin-bottom: 4px;
         }
 
         .option-description {
             font-size: 13px;
-            color: #6b7280;
+            color: var(--gray-500);
         }
 
         /* 成功メッセージ */
@@ -573,7 +273,7 @@
             display: none;
             background: #d1fae5;
             border: 1px solid #a7f3d0;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             padding: 12px 16px;
             margin-bottom: 16px;
             color: #065f46;
@@ -601,7 +301,6 @@
             .content-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 32px;
-                width: 100%;
             }
 
             .card {
@@ -609,26 +308,14 @@
             }
         }
 
-        /* 中画面デスクトップ・ラップトップ */
         @media (max-width: 1400px) {
             .content-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 20px;
-                width: 100%;
             }
         }
 
-        /* 小画面ラップトップ・大画面タブレット */
         @media (max-width: 1200px) {
-            .sidebar {
-                width: 240px;
-            }
-
-            .main-content {
-                margin-left: 240px;
-                padding: 16px;
-            }
-
             .content-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -643,30 +330,8 @@
             }
         }
 
-        /* タブレット */
         @media (max-width: 992px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                width: 280px;
-            }
-
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 16px;
-            }
-
-            /* サイドバー非表示時はヘッダーにトグルボタン表示 */
             .header-toggle {
-                display: flex;
-            }
-
-            /* サイドバー内のトグルボタンは常に表示 */
-            .sidebar-toggle {
                 display: flex;
             }
 
@@ -686,40 +351,9 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 12px;
             }
-
-            .items-header {
-                grid-template-columns: 2fr 80px 80px 80px 40px;
-                gap: 8px;
-            }
-
-            .item-row {
-                grid-template-columns: 2fr 80px 80px 80px 40px;
-                gap: 8px;
-            }
-
-            .item-input {
-                font-size: 13px;
-                height: 36px;
-                padding: 0 8px;
-            }
-
-            .invoice-preview {
-                padding: 24px;
-            }
-
-            .invoice-table th,
-            .invoice-table td {
-                padding: 8px 6px;
-                font-size: 13px;
-            }
         }
 
-        /* 大画面スマートフォン */
         @media (max-width: 768px) {
-            .main-content {
-                padding: 12px;
-            }
-
             .title-text {
                 font-size: 24px;
             }
@@ -737,160 +371,19 @@
                 font-size: 14px;
             }
 
-            /* ヘッダーのトグルボタンを表示 */
-            .header-toggle {
-                display: flex;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .card-title {
-                font-size: 18px;
-            }
-
             .form-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
             }
-
-            .form-input,
-            .form-textarea {
-                height: 40px;
-                font-size: 14px;
-            }
-
-            .form-textarea {
-                min-height: 60px;
-            }
-
-            /* 品目テーブルをスタック表示に */
-            .items-header {
-                display: none;
-            }
-
-            .item-row {
-                display: block;
-                background: #ffffff;
-                border: 1px solid #e5e7eb;
-                border-radius: 6px;
-                padding: 12px;
-                margin-bottom: 12px;
-                position: relative;
-            }
-
-            .item-row .item-input {
-                width: 100%;
-                margin-bottom: 12px;
-                height: 36px;
-                position: relative;
-            }
-
-            .item-row .item-input:nth-child(1)::before {
-                content: "品目名";
-                position: absolute;
-                top: -20px;
-                left: 0;
-                font-size: 12px;
-                color: #6b7280;
-                font-weight: 500;
-            }
-
-            .item-row .item-input:nth-child(2)::before {
-                content: "数量";
-                position: absolute;
-                top: -20px;
-                left: 0;
-                font-size: 12px;
-                color: #6b7280;
-                font-weight: 500;
-            }
-
-            .item-row .item-input:nth-child(3)::before {
-                content: "単価";
-                position: absolute;
-                top: -20px;
-                left: 0;
-                font-size: 12px;
-                color: #6b7280;
-                font-weight: 500;
-            }
-
-            .item-row .item-input:nth-child(4)::before {
-                content: "金額";
-                position: absolute;
-                top: -20px;
-                left: 0;
-                font-size: 12px;
-                color: #6b7280;
-                font-weight: 500;
-            }
-
-            .remove-item-btn {
-                width: 100%;
-                height: 36px;
-                margin-top: 4px;
-            }
-
-            /* プレビューを簡素化 */
-            .invoice-preview {
-                padding: 16px;
-                font-size: 14px;
-            }
-
-            .invoice-title {
-                font-size: 24px;
-            }
-
-            .invoice-header {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .company-info {
-                text-align: left;
-            }
-
-            .invoice-table {
-                font-size: 12px;
-            }
-
-            .invoice-table th,
-            .invoice-table td {
-                padding: 6px 4px;
-            }
-
-            .client-section {
-                padding: 12px;
-            }
-
-            .totals-section {
-                padding: 16px;
-            }
         }
 
-        /* 小画面スマートフォン */
         @media (max-width: 480px) {
-            .main-content {
-                padding: 8px;
-            }
-
-            .sidebar {
-                width: 100%;
-            }
-
-            .header {
-                margin-bottom: 16px;
-            }
-
             .title-text {
                 font-size: 20px;
             }
 
-            .card {
-                padding: 16px;
-                border-radius: 6px;
+            .header {
+                margin-bottom: 16px;
             }
 
             .content-grid {
@@ -905,95 +398,6 @@
                 font-size: 14px;
                 margin-bottom: 12px;
             }
-
-            .form-input,
-            .form-textarea {
-                height: 36px;
-                font-size: 14px;
-                padding: 0 8px;
-            }
-
-            .form-textarea {
-                min-height: 60px;
-                padding: 8px;
-            }
-
-            .items-container {
-                padding: 12px;
-            }
-
-            .item-row {
-                padding: 8px;
-            }
-
-            .add-item-btn {
-                height: 36px;
-                font-size: 13px;
-            }
-
-            .totals-section {
-                padding: 12px;
-            }
-
-            .total-row:last-child .total-value {
-                font-size: 20px;
-            }
-
-            /* プレビューをさらに簡素化 */
-            .invoice-preview {
-                padding: 12px;
-                font-size: 13px;
-            }
-
-            .invoice-title {
-                font-size: 20px;
-            }
-
-            .company-name {
-                font-size: 16px;
-            }
-
-            .client-name {
-                font-size: 16px;
-            }
-
-            .invoice-table {
-                font-size: 11px;
-            }
-
-            .invoice-total-row.grand-total {
-                font-size: 16px;
-            }
-
-            .invoice-notes,
-            .client-section {
-                padding: 8px;
-            }
-        }
-
-        /* 極小画面 */
-        @media (max-width: 320px) {
-            .main-content {
-                padding: 4px;
-            }
-
-            .title-text {
-                font-size: 18px;
-            }
-
-            .card {
-                padding: 12px;
-            }
-
-            .invoice-preview {
-                padding: 8px;
-            }
-
-            .invoice-table th,
-            .invoice-table td {
-                padding: 4px 2px;
-                font-size: 10px;
-            }
         }
     </style>
 </head>
@@ -1003,7 +407,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <a href="dashboard.html" class="logo-container">
-                <div class="logo">
+                <div class="logo-wrapper">
                     <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.11 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z" />
@@ -1236,8 +640,7 @@
                         <div class="file-upload-text">ロゴ画像をアップロード</div>
                         <div class="file-upload-subtext">PNG, JPG, SVG（最大2MB）</div>
                     </div>
-                    <input type="file" id="logo-file" class="file-input-hidden" accept="image/*"
-                        onchange="handleLogoUpload(event)">
+                    <input type="file" id="logo-file" class="file-input-hidden" accept="image/*">
 
                     <div style="margin-top: 12px; font-size: 13px; color: #6b7280;">
                         推奨サイズ: 400×200px以下、背景透明のPNG形式が最適です
@@ -1395,44 +798,21 @@
         </div>
     </main>
 
+    <script src="utils.js"></script>
     <script>
-        // サイドバートグル
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('mobile-open');
-        }
-
         // 支払条件選択
         function selectPaymentTerm(element, days) {
-            // 全ての選択を解除
             document.querySelectorAll('.option-item').forEach(item => {
                 item.classList.remove('selected');
                 item.querySelector('input[type="radio"]').checked = false;
             });
 
-            // 選択した項目をアクティブに
             element.classList.add('selected');
             element.querySelector('input[type="radio"]').checked = true;
         }
 
-        // ロゴアップロード処理
-        function handleLogoUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            // ファイルサイズチェック（2MB）
-            if (file.size > 2 * 1024 * 1024) {
-                alert('ファイルサイズは2MB以下にしてください。');
-                return;
-            }
-
-            // ファイル形式チェック
-            if (!file.type.startsWith('image/')) {
-                alert('画像ファイルを選択してください。');
-                return;
-            }
-
-            // プレビュー表示
+        // ロゴアップロード処理（utils.jsのinitFileUploadを使用）
+        const handleLogoChange = function(file) {
             const reader = new FileReader();
             reader.onload = function (e) {
                 const currentLogoContainer = document.getElementById('current-logo-container');
@@ -1440,12 +820,10 @@
 
                 currentLogo.src = e.target.result;
                 currentLogoContainer.style.display = 'block';
-
-                // アップロードエリアを隠す
                 document.getElementById('logo-upload-area').style.display = 'none';
             };
             reader.readAsDataURL(file);
-        }
+        };
 
         // ロゴ削除
         function removeLogo() {
@@ -1458,52 +836,23 @@
             logoFile.value = '';
         }
 
-        // ドラッグ&ドロップ処理
-        function setupDragAndDrop() {
-            const uploadArea = document.getElementById('logo-upload-area');
-
-            uploadArea.addEventListener('dragover', function (e) {
-                e.preventDefault();
-                uploadArea.classList.add('dragover');
-            });
-
-            uploadArea.addEventListener('dragleave', function (e) {
-                e.preventDefault();
-                uploadArea.classList.remove('dragover');
-            });
-
-            uploadArea.addEventListener('drop', function (e) {
-                e.preventDefault();
-                uploadArea.classList.remove('dragover');
-
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    const logoFile = document.getElementById('logo-file');
-                    logoFile.files = files;
-                    handleLogoUpload({ target: { files: files } });
-                }
-            });
-        }
-
         // 設定保存
         function saveSettings() {
-            // バリデーション
             const companyName = document.getElementById('company-name').value.trim();
             const companyAddress = document.getElementById('company-address').value.trim();
 
-            if (!companyName) {
-                alert('会社名は必須項目です。');
+            if (!validateRequired(companyName)) {
+                showToast('会社名は必須項目です。', 'error');
                 document.getElementById('company-name').focus();
                 return;
             }
 
-            if (!companyAddress) {
-                alert('住所は必須項目です。');
+            if (!validateRequired(companyAddress)) {
+                showToast('住所は必須項目です。', 'error');
                 document.getElementById('company-address').focus();
                 return;
             }
 
-            // 設定データの収集
             const settings = {
                 company: {
                     name: companyName,
@@ -1532,33 +881,24 @@
                 }
             };
 
-            // 実際のアプリケーションではここでAPIに送信
             console.log('保存する設定:', settings);
 
-            // 成功メッセージ表示
-            showSuccessMessage();
-        }
-
-        // 成功メッセージ表示
-        function showSuccessMessage() {
-            const message = document.getElementById('success-message');
-            message.classList.add('show');
-
-            setTimeout(() => {
-                message.classList.remove('show');
-            }, 3000);
+            // 成功メッセージ表示（showToast使用）
+            showToast('設定を保存しました', 'success');
         }
 
         // 初期化
         document.addEventListener('DOMContentLoaded', function () {
-            setupDragAndDrop();
+            // ドラッグ&ドロップの初期化（utils.jsを使用）
+            initDragAndDrop('logo-upload-area', 'logo-file', {
+                onDrop: handleLogoChange
+            });
 
-            // フォーム変更時の処理
-            const inputs = document.querySelectorAll('.form-input, .form-textarea');
-            inputs.forEach(input => {
-                input.addEventListener('change', function () {
-                    // 未保存状態を示すマーク（実装可能）
-                });
+            // ファイルアップロードの初期化（utils.jsを使用）
+            initFileUpload('logo-file', null, {
+                maxSize: 2 * 1024 * 1024, // 2MB
+                allowedTypes: ['image/jpeg', 'image/png', 'image/svg+xml', 'image/gif'],
+                onSuccess: handleLogoChange
             });
         });
     </script>
