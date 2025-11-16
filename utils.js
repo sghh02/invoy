@@ -8,7 +8,17 @@
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
   if (sidebar) {
-    sidebar.classList.toggle('mobile-open');
+    const isOpen = sidebar.classList.toggle('mobile-open');
+
+    // aria-labelを動的に更新（アクセシビリティ向上）
+    const toggleButtons = document.querySelectorAll('.sidebar-toggle, .header-toggle');
+    toggleButtons.forEach(btn => {
+      if (btn.classList.contains('sidebar-toggle')) {
+        btn.setAttribute('aria-label', isOpen ? 'サイドバーを閉じる' : 'サイドバーを開く');
+      } else if (btn.classList.contains('header-toggle')) {
+        btn.setAttribute('aria-label', isOpen ? 'サイドバーを閉じる' : 'サイドバーを開く');
+      }
+    });
   }
 }
 
@@ -51,11 +61,44 @@ function setupPasswordToggle(toggleId, inputId) {
     const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
     input.setAttribute('type', type);
 
-    // アイコンの切り替え
-    const eyeIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
-    const eyeOffIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+    // アイコンの切り替え（XSS対策: innerHTMLの代わりにDOM操作を使用）
+    const svg = toggle.querySelector('svg');
+    if (svg) {
+      toggle.removeChild(svg);
+    }
 
-    this.innerHTML = type === 'password' ? eyeIcon : eyeOffIcon;
+    const newSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    newSvg.setAttribute('width', '18');
+    newSvg.setAttribute('height', '18');
+    newSvg.setAttribute('viewBox', '0 0 24 24');
+    newSvg.setAttribute('fill', 'none');
+    newSvg.setAttribute('stroke', 'currentColor');
+    newSvg.setAttribute('stroke-width', '2');
+
+    if (type === 'password') {
+      // Eye icon
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z');
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', '12');
+      circle.setAttribute('cy', '12');
+      circle.setAttribute('r', '3');
+      newSvg.appendChild(path);
+      newSvg.appendChild(circle);
+    } else {
+      // Eye-off icon
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24');
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', '1');
+      line.setAttribute('y1', '1');
+      line.setAttribute('x2', '23');
+      line.setAttribute('y2', '23');
+      newSvg.appendChild(path);
+      newSvg.appendChild(line);
+    }
+
+    toggle.appendChild(newSvg);
   });
 }
 
@@ -216,6 +259,9 @@ function saveToStorage(key, value) {
     return true;
   } catch (error) {
     console.error('Storage save error:', error);
+    if (typeof showToast === 'function') {
+      showToast('データの保存に失敗しました', 'error');
+    }
     return false;
   }
 }
@@ -236,6 +282,9 @@ function removeFromStorage(key) {
     return true;
   } catch (error) {
     console.error('Storage remove error:', error);
+    if (typeof showToast === 'function') {
+      showToast('データの削除に失敗しました', 'error');
+    }
     return false;
   }
 }

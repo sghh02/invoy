@@ -197,7 +197,7 @@ body {
 .nav-section-title {
   font-size: 12px;
   font-weight: 600;
-  color: var(--gray-500);
+  color: var(--gray-600); /* コントラスト比改善: #6b7280 → #4b5563 (AAA準拠) */
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 0 12px;
@@ -728,7 +728,7 @@ body {
   border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--gray-600); /* コントラスト比改善: AAA準拠 */
   cursor: pointer;
   transition: all 0.2s ease;
 }
