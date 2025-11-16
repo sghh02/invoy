@@ -494,15 +494,15 @@
             </div>
             <div class="form-group">
               <label class="form-label">発行日</label>
-              <input type="date" class="form-input" id="issue-date" value="2025-05-30">
+              <input type="date" class="form-input" id="issue-date">
             </div>
             <div class="form-group">
               <label class="form-label">支払期限</label>
-              <input type="date" class="form-input" id="due-date" value="2025-06-30">
+              <input type="date" class="form-input" id="due-date">
             </div>
           </div>
 
-          <div class="section-header" style="margin-top: 32px;">
+          <div class="section-header mt-2xl">
             <div class="section-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -531,7 +531,7 @@
             <textarea class="form-textarea" id="client-address" rows="2" placeholder="〒100-0001 東京都千代田区千代田1-1"></textarea>
           </div>
 
-          <div class="section-header" style="margin-top: 32px;">
+          <div class="section-header mt-2xl">
             <div class="section-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -577,7 +577,7 @@
             項目を追加
           </button>
 
-          <div class="section-header" style="margin-top: 32px;">
+          <div class="section-header mt-2xl">
             <div class="section-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="12" y1="1" x2="12" y2="23"></line>
@@ -693,7 +693,7 @@
           </div>
         </div>
 
-        <div class="party-info" style="margin-top: 24px; padding-top: 24px; border-top: 2px solid #f3f4f6;">
+        <div class="party-info mt-xl pt-xl border-top">
           <h3>備考</h3>
           <div class="party-details" id="preview-notes">備考なし</div>
         </div>
@@ -856,6 +856,16 @@
       // サイドバーの初期化（utils.jsの関数を使用）
       initSidebarCloseOnOutsideClick();
       initSidebarResize();
+
+      // 日付フィールドのデフォルト値を設定
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+      const dueDate = new Date(today);
+      dueDate.setDate(dueDate.getDate() + 30); // 30日後
+      const dueDateStr = dueDate.toISOString().split('T')[0];
+
+      document.getElementById('issue-date').value = todayStr;
+      document.getElementById('due-date').value = dueDateStr;
 
       // Attach listeners to initial item row
       const initialRow = document.querySelector('.item-row');

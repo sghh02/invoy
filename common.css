@@ -18,6 +18,13 @@
   --danger-color: #EF4444;
   --info-color: #3B82F6;
 
+  /* ステータスバッジカラー */
+  --success-color: #10B981;
+  --success-bg: #d1fae5;
+  --warning-bg: #fed7aa;
+  --danger-bg: #fee2e2;
+  --info-bg: #dbeafe;
+
   /* グレースケール */
   --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
@@ -409,6 +416,7 @@ body {
 .form-select:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .form-input.error {
@@ -1230,4 +1238,48 @@ body {
   .modal-footer {
     padding: 16px;
   }
+}
+
+/* ==================== */
+/* ユーティリティクラス */
+/* ==================== */
+
+/* 幅 */
+.w-full {
+  width: 100%;
+}
+
+/* マージン */
+.mt-2xl {
+  margin-top: var(--spacing-2xl);
+}
+
+.mt-xl {
+  margin-top: var(--spacing-xl);
+}
+
+/* パディング */
+.pt-xl {
+  padding-top: var(--spacing-xl);
+}
+
+/* ボーダー */
+.border-top {
+  border-top: 2px solid var(--gray-100);
+}
+
+/* フォーカス管理 - アクセシビリティ向上 */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* マウスクリックのフォーカスリングを非表示 */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
 }

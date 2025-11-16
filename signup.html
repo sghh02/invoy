@@ -287,7 +287,7 @@
                             姓<span class="required">*</span>
                         </label>
                         <div class="input-wrapper">
-                            <input type="text" id="last-name" class="form-input" placeholder="山田" required>
+                            <input type="text" id="last-name" class="form-input" placeholder="山田" required autocomplete="family-name">
                             <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -303,7 +303,7 @@
                             名<span class="required">*</span>
                         </label>
                         <div class="input-wrapper">
-                            <input type="text" id="first-name" class="form-input" placeholder="太郎" required>
+                            <input type="text" id="first-name" class="form-input" placeholder="太郎" required autocomplete="given-name">
                             <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -320,7 +320,7 @@
                         会社名・組織名
                     </label>
                     <div class="input-wrapper">
-                        <input type="text" id="company" class="form-input" placeholder="株式会社サンプル（任意）">
+                        <input type="text" id="company" class="form-input" placeholder="株式会社サンプル（任意）" autocomplete="organization">
                         <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M3 21h18"></path>
                             <path d="M5 21V7l8-4v18"></path>
@@ -394,13 +394,12 @@
                 <div class="checkbox-wrapper">
                     <input type="checkbox" id="terms" class="checkbox-input" required>
                     <label for="terms" class="checkbox-label">
-                        <a href="/terms" target="_blank">利用規約</a>と<a href="/privacy"
-                            target="_blank">プライバシーポリシー</a>に同意します
+                        <a href="#" onclick="showToast('利用規約は準備中です', 'info'); return false;">利用規約</a>と<a href="#" onclick="showToast('プライバシーポリシーは準備中です', 'info'); return false;">プライバシーポリシー</a>に同意します
                     </label>
                 </div>
 
                 <!-- 送信ボタン -->
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <button type="submit" class="btn btn-primary w-full">
                     アカウントを作成
                 </button>
             </form>
