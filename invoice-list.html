@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="description" content="InFree請求書管理システムの請求書一覧ページ。作成した請求書を検索・管理。">
+    <meta name="keywords" content="請求書,一覧,管理,InFree,検索,フィルター">
+    <meta name="author" content="InFree">
+    <meta property="og:title" content="InFree - 請求書一覧">
+    <meta property="og:description" content="InFree請求書管理システムの請求書一覧">
+    <meta property="og:type" content="website">
     <title>InFree - 請求書一覧</title>
     <link rel="stylesheet" href="common.css">
     <style>
@@ -743,6 +749,7 @@
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
     <!-- サイドバー -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -778,7 +785,7 @@
                     </svg>
                     <span class="nav-text">請求書作成</span>
                 </a>
-                <a href="#" class="nav-item active">
+                <a href="#" class="nav-item active" aria-current="page">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.11 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />

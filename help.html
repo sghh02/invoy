@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="description" content="InFree請求書管理システムのヘルプページ。使い方ガイド、よくある質問、お問い合わせ。">
+    <meta name="keywords" content="ヘルプ,使い方,FAQ,InFree,サポート,お問い合わせ">
+    <meta name="author" content="InFree">
+    <meta property="og:title" content="InFree - ヘルプ">
+    <meta property="og:description" content="InFree請求書管理システムのヘルプ">
+    <meta property="og:type" content="website">
     <title>InFree - ヘルプ</title>
     <link rel="stylesheet" href="common.css">
     <style>
@@ -662,6 +668,7 @@
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
     <!-- サイドバー -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -716,7 +723,7 @@
                     </svg>
                     <span class="nav-text">設定</span>
                 </a>
-                <a href="#" class="nav-item active">
+                <a href="#" class="nav-item active" aria-current="page">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M13,19h-2v-2h2V19z M15.07,11.25l-0.9,0.92 C13.45,12.9,13,13.5,13,15h-2v-0.5c0-1.1,0.45-2.1,1.17-2.83l1.24-1.26c0.37-0.36,0.59-0.86,0.59-1.41c0-1.1-0.9-2-2-2 s-2,0.9-2,2H8c0-2.21,1.79-4,4-4s4,1.79,4,4C16,9.64,15.62,10.57,15.07,11.25z" />
@@ -836,7 +843,7 @@
 
                 <div class="help-section">
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
+                        <div class="faq-question" role="button" aria-expanded="false" tabindex="0" onclick="toggleFaq(this)">
                             <span>請求書番号は自動で設定されますか？</span>
                             <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
@@ -848,7 +855,7 @@
                     </div>
 
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
+                        <div class="faq-question" role="button" aria-expanded="false" tabindex="0" onclick="toggleFaq(this)">
                             <span>消費税率は変更できますか？</span>
                             <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
@@ -860,7 +867,7 @@
                     </div>
 
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
+                        <div class="faq-question" role="button" aria-expanded="false" tabindex="0" onclick="toggleFaq(this)">
                             <span>作成した請求書はどこに保存されますか？</span>
                             <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
@@ -872,7 +879,7 @@
                     </div>
 
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
+                        <div class="faq-question" role="button" aria-expanded="false" tabindex="0" onclick="toggleFaq(this)">
                             <span>PDFファイルをカスタマイズできますか？</span>
                             <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
@@ -884,7 +891,7 @@
                     </div>
 
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
+                        <div class="faq-question" role="button" aria-expanded="false" tabindex="0" onclick="toggleFaq(this)">
                             <span>複数の会社で利用できますか？</span>
                             <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
@@ -896,7 +903,7 @@
                     </div>
 
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
+                        <div class="faq-question" role="button" aria-expanded="false" tabindex="0" onclick="toggleFaq(this)">
                             <span>データのバックアップは取られていますか？</span>
                             <svg class="faq-toggle" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
@@ -974,12 +981,14 @@
             document.querySelectorAll('.faq-question').forEach(q => {
                 q.classList.remove('active');
                 q.nextElementSibling.classList.remove('show');
+                q.setAttribute('aria-expanded', 'false');
             });
 
             // クリックされたFAQが非アクティブだった場合は開く
             if (!isActive) {
                 questionElement.classList.add('active');
                 answer.classList.add('show');
+                questionElement.setAttribute('aria-expanded', 'true');
             }
         }
 
@@ -994,6 +1003,7 @@
             if (firstQuestion) {
                 firstQuestion.classList.add('active');
                 firstQuestion.nextElementSibling.classList.add('show');
+                firstQuestion.setAttribute('aria-expanded', 'true');
             }
         });
     </script>
