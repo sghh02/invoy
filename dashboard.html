@@ -4,6 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="description" content="InFree請求書管理システムのダッシュボード。請求書の作成・管理・分析を一元管理。">
+    <meta name="keywords" content="請求書,管理,ダッシュボード,InFree,分析,統計">
+    <meta name="author" content="InFree">
+    <meta property="og:title" content="InFree - ダッシュボード">
+    <meta property="og:description" content="InFree請求書管理システムのダッシュボード">
+    <meta property="og:type" content="website">
     <title>InFree - ダッシュボード</title>
     <link rel="stylesheet" href="common.css">
     <style>
@@ -230,6 +237,7 @@
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
     <!-- サイドバー -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -242,7 +250,7 @@
                 </div>
                 <span class="logo-text">InFree</span>
             </a>
-            <button class="sidebar-toggle" onclick="toggleSidebar()">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="サイドバーを閉じる">
                 <svg class="sidebar-toggle-icon" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
                 </svg>
@@ -252,7 +260,7 @@
         <nav class="nav-menu">
             <div class="nav-section">
                 <div class="nav-section-title">メイン</div>
-                <a href="#" class="nav-item active">
+                <a href="#" class="nav-item active" aria-current="page">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
                     </svg>
@@ -310,7 +318,7 @@
         <!-- ヘッダー -->
         <header class="header">
             <div class="page-title">
-                <button class="header-toggle" onclick="toggleSidebar()">
+                <button class="header-toggle" onclick="toggleSidebar()" aria-label="メニューを開く">
                     <svg class="header-toggle-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                     </svg>

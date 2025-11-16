@@ -18,6 +18,13 @@
   --danger-color: #EF4444;
   --info-color: #3B82F6;
 
+  /* ステータスバッジカラー */
+  --success-color: #10B981;
+  --success-bg: #d1fae5;
+  --warning-bg: #fed7aa;
+  --danger-bg: #fee2e2;
+  --info-bg: #dbeafe;
+
   /* グレースケール */
   --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
@@ -89,6 +96,24 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* スキップリンク（アクセシビリティ） */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary-color);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-sm) 0;
+  z-index: 100;
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 .hidden {
@@ -190,7 +215,7 @@ body {
 .nav-section-title {
   font-size: 12px;
   font-weight: 600;
-  color: var(--gray-500);
+  color: var(--gray-600); /* コントラスト比改善: #6b7280 → #4b5563 (AAA準拠) */
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 0 12px;
@@ -409,6 +434,7 @@ body {
 .form-select:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .form-input.error {
@@ -720,7 +746,7 @@ body {
   border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--gray-600); /* コントラスト比改善: AAA準拠 */
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -1230,4 +1256,48 @@ body {
   .modal-footer {
     padding: 16px;
   }
+}
+
+/* ==================== */
+/* ユーティリティクラス */
+/* ==================== */
+
+/* 幅 */
+.w-full {
+  width: 100%;
+}
+
+/* マージン */
+.mt-2xl {
+  margin-top: var(--spacing-2xl);
+}
+
+.mt-xl {
+  margin-top: var(--spacing-xl);
+}
+
+/* パディング */
+.pt-xl {
+  padding-top: var(--spacing-xl);
+}
+
+/* ボーダー */
+.border-top {
+  border-top: 2px solid var(--gray-100);
+}
+
+/* フォーカス管理 - アクセシビリティ向上 */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* マウスクリックのフォーカスリングを非表示 */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
 }

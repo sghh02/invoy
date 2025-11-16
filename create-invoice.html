@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta name="description" content="InFree請求書管理システムの請求書作成ページ。簡単操作で請求書を素早く作成。">
+  <meta name="keywords" content="請求書,作成,InFree,PDF,見積書">
+  <meta name="author" content="InFree">
+  <meta property="og:title" content="InFree - 請求書作成">
+  <meta property="og:description" content="InFree請求書管理システムの請求書作成">
+  <meta property="og:type" content="website">
   <title>InFree - 請求書作成</title>
   <link rel="stylesheet" href="common.css">
   <style>
@@ -359,6 +366,7 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -372,7 +380,7 @@
         </div>
         <span class="logo-text">InFree</span>
       </a>
-      <button class="sidebar-toggle" onclick="toggleSidebar()">
+      <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="サイドバーを閉じる">
         <svg class="sidebar-toggle-icon" viewBox="0 0 24 24" fill="currentColor">
           <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
         </svg>
@@ -391,7 +399,7 @@
           </svg>
           <span class="nav-text">ダッシュボード</span>
         </a>
-        <a href="create-invoice.html" class="nav-item active">
+        <a href="create-invoice.html" class="nav-item active" aria-current="page">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
             <polyline points="14 2 14 8 20 8"></polyline>
@@ -400,7 +408,7 @@
           </svg>
           <span class="nav-text">請求書作成</span>
         </a>
-        <a href="invoices.html" class="nav-item">
+        <a href="invoice-list.html" class="nav-item">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
             <polyline points="13 2 13 9 20 9"></polyline>
@@ -411,7 +419,7 @@
 
       <div class="nav-section">
         <div class="nav-section-title">管理</div>
-        <a href="clients.html" class="nav-item">
+        <a href="#" class="nav-item" onclick="showToast('この機能は開発中です', 'info'); return false;">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
@@ -420,13 +428,13 @@
           </svg>
           <span class="nav-text">顧客管理</span>
         </a>
-        <a href="products.html" class="nav-item">
+        <a href="#" class="nav-item" onclick="showToast('この機能は開発中です', 'info'); return false;">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
           </svg>
           <span class="nav-text">商品・サービス</span>
         </a>
-        <a href="reports.html" class="nav-item">
+        <a href="#" class="nav-item" onclick="showToast('この機能は開発中です', 'info'); return false;">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="20" x2="18" y2="10"></line>
             <line x1="12" y1="20" x2="12" y2="4"></line>
@@ -494,15 +502,15 @@
             </div>
             <div class="form-group">
               <label class="form-label">発行日</label>
-              <input type="date" class="form-input" id="issue-date" value="2025-05-30">
+              <input type="date" class="form-input" id="issue-date">
             </div>
             <div class="form-group">
               <label class="form-label">支払期限</label>
-              <input type="date" class="form-input" id="due-date" value="2025-06-30">
+              <input type="date" class="form-input" id="due-date">
             </div>
           </div>
 
-          <div class="section-header" style="margin-top: 32px;">
+          <div class="section-header mt-2xl">
             <div class="section-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -531,7 +539,7 @@
             <textarea class="form-textarea" id="client-address" rows="2" placeholder="〒100-0001 東京都千代田区千代田1-1"></textarea>
           </div>
 
-          <div class="section-header" style="margin-top: 32px;">
+          <div class="section-header mt-2xl">
             <div class="section-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -577,7 +585,7 @@
             項目を追加
           </button>
 
-          <div class="section-header" style="margin-top: 32px;">
+          <div class="section-header mt-2xl">
             <div class="section-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="12" y1="1" x2="12" y2="23"></line>
@@ -693,7 +701,7 @@
           </div>
         </div>
 
-        <div class="party-info" style="margin-top: 24px; padding-top: 24px; border-top: 2px solid #f3f4f6;">
+        <div class="party-info mt-xl pt-xl border-top">
           <h3>備考</h3>
           <div class="party-details" id="preview-notes">備考なし</div>
         </div>
@@ -703,34 +711,49 @@
 
   <script src="utils.js"></script>
   <script>
-    // Page-specific JavaScript for create-invoice
-    let itemCount = 1;
+    // Page-specific JavaScript for create-invoice (IIFEでカプセル化)
+    (function() {
+      'use strict';
 
-    function addItem() {
-      itemCount++;
+      // 定数定義（マジックナンバーの排除）
+      const DEFAULT_PAYMENT_DAYS = 30;
+      const MIN_ITEMS = 1;
+
+      let itemCount = 1;
+
+      // グローバルに公開する必要がある関数
+      window.addItem = addItem;
+      window.removeItem = removeItem;
+
+      function addItem() {
+        itemCount++;
       const container = document.getElementById('items-container');
       const itemRow = document.createElement('div');
       itemRow.className = 'item-row';
+
+      // ユニークIDを生成して重複IDを防ぐ
+      const uniqueId = `item-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
       itemRow.innerHTML = `
         <div class="form-group">
-          <label class="form-label">項目名</label>
-          <input type="text" class="form-input item-name" placeholder="項目名">
+          <label class="form-label" for="${uniqueId}-name">項目名</label>
+          <input type="text" id="${uniqueId}-name" class="form-input item-name" placeholder="項目名">
         </div>
         <div class="form-group">
-          <label class="form-label">数量</label>
-          <input type="number" class="form-input item-quantity" value="1" min="1">
+          <label class="form-label" for="${uniqueId}-quantity">数量</label>
+          <input type="number" id="${uniqueId}-quantity" class="form-input item-quantity" value="1" min="0" step="0.01">
         </div>
         <div class="form-group">
-          <label class="form-label">単価</label>
-          <input type="number" class="form-input item-price" placeholder="0" min="0">
+          <label class="form-label" for="${uniqueId}-price">単価</label>
+          <input type="number" id="${uniqueId}-price" class="form-input item-price" placeholder="0" min="0" step="0.01">
         </div>
         <div class="form-group">
-          <label class="form-label">小計</label>
-          <input type="text" class="form-input item-subtotal" readonly value="¥0">
+          <label class="form-label" for="${uniqueId}-subtotal">小計</label>
+          <input type="text" id="${uniqueId}-subtotal" class="form-input item-subtotal" readonly value="¥0">
         </div>
         <div class="form-group">
           <label class="form-label">&nbsp;</label>
-          <button type="button" class="remove-item-btn" onclick="removeItem(this)">
+          <button type="button" class="remove-item-btn" onclick="removeItem(this)" aria-label="この項目を削除">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
             </svg>
@@ -742,16 +765,16 @@
       updatePreview();
     }
 
-    function removeItem(button) {
-      const itemRow = button.closest('.item-row');
-      const container = document.getElementById('items-container');
-      if (container.children.length > 1) {
-        itemRow.remove();
-        updatePreview();
-      } else {
-        alert('最低1つの項目が必要です');
+      function removeItem(button) {
+        const itemRow = button.closest('.item-row');
+        const container = document.getElementById('items-container');
+        if (container.children.length > MIN_ITEMS) {
+          itemRow.remove();
+          updatePreview();
+        } else {
+          showToast(`最低${MIN_ITEMS}つの項目が必要です`, 'warning');
+        }
       }
-    }
 
     function attachItemListeners(itemRow) {
       const quantity = itemRow.querySelector('.item-quantity');
@@ -759,16 +782,17 @@
       const subtotal = itemRow.querySelector('.item-subtotal');
       const name = itemRow.querySelector('.item-name');
 
-      [quantity, price, name].forEach(input => {
-        input.addEventListener('input', () => {
-          const qty = parseFloat(quantity.value) || 0;
-          const prc = parseFloat(price.value) || 0;
-          const sub = qty * prc;
-          subtotal.value = '¥' + sub.toLocaleString();
-          updatePreview();
+        [quantity, price, name].forEach(input => {
+          input.addEventListener('input', () => {
+            // 数値の境界値チェック（負の値を防ぐ）
+            const qty = Math.max(0, parseFloat(quantity.value) || 0);
+            const prc = Math.max(0, parseFloat(price.value) || 0);
+            const sub = qty * prc;
+            subtotal.value = '¥' + sub.toLocaleString();
+            updatePreview();
+          });
         });
-      });
-    }
+      }
 
     function updatePreview() {
       // Update invoice number
@@ -806,18 +830,35 @@
       } else {
         itemRows.forEach(row => {
           const name = row.querySelector('.item-name').value || '項目名未入力';
-          const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
-          const price = parseFloat(row.querySelector('.item-price').value) || 0;
+          // 数値の境界値チェック（負の値を防ぐ）
+          const quantity = Math.max(0, parseFloat(row.querySelector('.item-quantity').value) || 0);
+          const price = Math.max(0, parseFloat(row.querySelector('.item-price').value) || 0);
           const itemSubtotal = quantity * price;
           subtotal += itemSubtotal;
 
           const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td class="item-name">${name}</td>
-            <td class="text-right">${quantity}</td>
-            <td class="text-right">¥${price.toLocaleString()}</td>
-            <td class="text-right">¥${itemSubtotal.toLocaleString()}</td>
-          `;
+
+          // セキュリティ対策: innerHTMLではなくtextContentを使用してXSS脆弱性を防止
+          const tdName = document.createElement('td');
+          tdName.className = 'item-name';
+          tdName.textContent = name;
+
+          const tdQuantity = document.createElement('td');
+          tdQuantity.className = 'text-right';
+          tdQuantity.textContent = quantity;
+
+          const tdPrice = document.createElement('td');
+          tdPrice.className = 'text-right';
+          tdPrice.textContent = '¥' + price.toLocaleString();
+
+          const tdSubtotal = document.createElement('td');
+          tdSubtotal.className = 'text-right';
+          tdSubtotal.textContent = '¥' + itemSubtotal.toLocaleString();
+
+          tr.appendChild(tdName);
+          tr.appendChild(tdQuantity);
+          tr.appendChild(tdPrice);
+          tr.appendChild(tdSubtotal);
           previewItems.appendChild(tr);
         });
       }
@@ -841,6 +882,16 @@
       initSidebarCloseOnOutsideClick();
       initSidebarResize();
 
+      // 日付フィールドのデフォルト値を設定
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+      const dueDate = new Date(today);
+      dueDate.setDate(dueDate.getDate() + DEFAULT_PAYMENT_DAYS);
+      const dueDateStr = dueDate.toISOString().split('T')[0];
+
+      document.getElementById('issue-date').value = todayStr;
+      document.getElementById('due-date').value = dueDateStr;
+
       // Attach listeners to initial item row
       const initialRow = document.querySelector('.item-row');
       attachItemListeners(initialRow);
@@ -853,12 +904,13 @@
       // Form submit
       document.getElementById('invoice-form').addEventListener('submit', (e) => {
         e.preventDefault();
-        alert('請求書が送信されました！');
+        showToast('請求書が送信されました！', 'success');
       });
 
       // Initial preview update
       updatePreview();
     });
+    })(); // IIFE終了
   </script>
 </body>
 </html>

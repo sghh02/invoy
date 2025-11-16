@@ -4,6 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="description" content="InFree請求書管理システムのログインページ。フリーランスや中小企業向けの簡単で使いやすい請求書作成・管理ツール。">
+    <meta name="keywords" content="請求書,管理,ログイン,InFree,フリーランス,中小企業">
+    <meta name="author" content="InFree">
+    <meta property="og:title" content="InFree - ログイン">
+    <meta property="og:description" content="InFree請求書管理システムのログインページ">
+    <meta property="og:type" content="website">
     <title>InFree - ログイン</title>
     <link rel="stylesheet" href="common.css">
     <style>
@@ -157,8 +164,10 @@
 </head>
 
 <body>
-    <!-- ログインコンテナ -->
-    <div class="login-container">
+    <a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
+    <main id="main-content">
+        <!-- ログインコンテナ -->
+        <div class="login-container">
         <div class="login-card">
             <!-- ロゴセクション -->
             <div class="logo-section">
@@ -211,10 +220,10 @@
                         <input type="checkbox" id="remember" class="checkbox-input">
                         <label for="remember" class="checkbox-label">ログイン状態を保持</label>
                     </div>
-                    <a href="password_reset.html" class="forgot-link">パスワードを忘れた方</a>
+                    <a href="#" class="forgot-link" onclick="showToast('パスワードリセット機能は準備中です', 'info'); return false;">パスワードを忘れた方</a>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <button type="submit" class="btn btn-primary w-full">
                     ログイン
                 </button>
             </form>
@@ -269,6 +278,7 @@
             </div>
         </div>
     </div>
+    </main>
 
     <script src="utils.js"></script>
     <script>
