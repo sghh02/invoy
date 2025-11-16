@@ -372,7 +372,7 @@
         </div>
         <span class="logo-text">InFree</span>
       </a>
-      <button class="sidebar-toggle" onclick="toggleSidebar()">
+      <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="サイドバーを閉じる">
         <svg class="sidebar-toggle-icon" viewBox="0 0 24 24" fill="currentColor">
           <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
         </svg>
@@ -400,7 +400,7 @@
           </svg>
           <span class="nav-text">請求書作成</span>
         </a>
-        <a href="invoices.html" class="nav-item">
+        <a href="invoice-list.html" class="nav-item">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
             <polyline points="13 2 13 9 20 9"></polyline>
@@ -411,7 +411,7 @@
 
       <div class="nav-section">
         <div class="nav-section-title">管理</div>
-        <a href="clients.html" class="nav-item">
+        <a href="#" class="nav-item" onclick="showToast('この機能は開発中です', 'info'); return false;">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
@@ -420,13 +420,13 @@
           </svg>
           <span class="nav-text">顧客管理</span>
         </a>
-        <a href="products.html" class="nav-item">
+        <a href="#" class="nav-item" onclick="showToast('この機能は開発中です', 'info'); return false;">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
           </svg>
           <span class="nav-text">商品・サービス</span>
         </a>
-        <a href="reports.html" class="nav-item">
+        <a href="#" class="nav-item" onclick="showToast('この機能は開発中です', 'info'); return false;">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="20" x2="18" y2="10"></line>
             <line x1="12" y1="20" x2="12" y2="4"></line>
@@ -749,7 +749,7 @@
         itemRow.remove();
         updatePreview();
       } else {
-        alert('最低1つの項目が必要です');
+        showToast('最低1つの項目が必要です', 'warning');
       }
     }
 
@@ -812,12 +812,28 @@
           subtotal += itemSubtotal;
 
           const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td class="item-name">${name}</td>
-            <td class="text-right">${quantity}</td>
-            <td class="text-right">¥${price.toLocaleString()}</td>
-            <td class="text-right">¥${itemSubtotal.toLocaleString()}</td>
-          `;
+
+          // セキュリティ対策: innerHTMLではなくtextContentを使用してXSS脆弱性を防止
+          const tdName = document.createElement('td');
+          tdName.className = 'item-name';
+          tdName.textContent = name;
+
+          const tdQuantity = document.createElement('td');
+          tdQuantity.className = 'text-right';
+          tdQuantity.textContent = quantity;
+
+          const tdPrice = document.createElement('td');
+          tdPrice.className = 'text-right';
+          tdPrice.textContent = '¥' + price.toLocaleString();
+
+          const tdSubtotal = document.createElement('td');
+          tdSubtotal.className = 'text-right';
+          tdSubtotal.textContent = '¥' + itemSubtotal.toLocaleString();
+
+          tr.appendChild(tdName);
+          tr.appendChild(tdQuantity);
+          tr.appendChild(tdPrice);
+          tr.appendChild(tdSubtotal);
           previewItems.appendChild(tr);
         });
       }
@@ -853,7 +869,7 @@
       // Form submit
       document.getElementById('invoice-form').addEventListener('submit', (e) => {
         e.preventDefault();
-        alert('請求書が送信されました！');
+        showToast('請求書が送信されました！', 'success');
       });
 
       // Initial preview update
